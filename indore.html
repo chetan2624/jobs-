@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indore IT Hub - Complete IT Companies Directory</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 15px 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 2em;
+        }
+
+        .logo-text h1 {
+            color: #667eea;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .logo-text p {
+            color: #666;
+            font-size: 0.85em;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-menu a:hover {
+            color: #667eea;
+        }
+
+        .nav-btn {
+            background: #667eea;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Landing Page */
+        #landingPage {
+            display: block;
+        }
+
+        .hero-section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 80px 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hero-content p {
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        .hero-stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+
+        .hero-stat-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .hero-stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-stat-label {
+            color: #666;
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .cta-btn {
+            padding: 18px 40px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-primary {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 5px 20px rgba(255,255,255,0.3);
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(255,255,255,0.4);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .cta-secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        .features-section {
+            background: white;
+            padding: 80px 30px;
+        }
+
+        .features-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 50px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Listings Page */
+        #listingsPage {
+            display: none;
+            padding: 20px;
+        }
+
+        .listings-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .listings-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .listings-header h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #764ba2;
+        }
+
+        .btn-secondary {
+            background: #f44336;
+        }
+
+        .btn-secondary:hover {
+            background: #d32f2f;
+        }
+
+        .companies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .company-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .company-card:hover {
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .company-card.visited {
+            background: #f0f4ff;
+            border-color: #667eea;
+        }
+
+        .company-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .company-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .visited-checkbox {
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .rating {
+            display: inline-block;
+            background: #ffa726;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .company-info {
+            margin: 10px 0;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .company-info strong {
+            color: #333;
+        }
+
+        .company-link {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9em;
+            transition: background 0.3s;
+        }
+
+        .company-link:hover {
+            background: #764ba2;
+        }
+
+        .review {
+            margin-top: 10px;
+            padding: 10px;
+            background: #fff3e0;
+            border-left: 4px solid #ffa726;
+            border-radius: 4px;
+            font-style: italic;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+            font-size: 1.2em;
+        }
+
+        .export-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero-content h1 {
+                font-size: 2em;
+            }
+
+            .companies-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">🏢</div>
+                <div class="logo-text">
+                    <h1>Indore IT Hub</h1>
+                    <p>Your IT Partner Directory</p>
+                </div>
+            </div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a onclick="showPage('landing')">Home</a></li>
+                <li><a onclick="showPage('listings')">Browse Companies</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><button class="nav-btn" onclick="showPage('listings')">View All Listings</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Landing Page -->
+    <div id="landingPage">
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1>🚀 Discover Indore's Best IT Companies</h1>
+                <p>Your comprehensive directory of 59+ verified IT and software companies in Indore</p>
+                
+                <div class="hero-stats">
+                    <div class="hero-stat-card">
+                        <div class="hero-stat-number">59+</div>
+                        <div class="hero-stat-label">IT Companies</div>
+                    </div>
+                    <div class="hero-stat-card">
+                        <div class="hero-stat-number">4.5</div>
+                        <div class="hero-stat-label">Avg Rating</div>
+                    </div>
+                    <div class="hero-stat-card">
+                        <div class="hero-stat-number">24/7</div>
+                        <div class="hero-stat-label">Support Available</div>
+                    </div>
+                    <div class="hero-stat-card">
+                        <div class="hero-stat-number">100%</div>
+                        <div class="hero-stat-label">Verified</div>
+                    </div>
+                </div>
+
+                <div class="cta-buttons">
+                    <button class="cta-btn cta-primary" onclick="showPage('listings')">
+                        🔍 Explore All Companies
+                    </button>
+                    <button class="cta-btn cta-secondary" onclick="scrollToFeatures()">
+                        📚 Learn More
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="features-section" id="features">
+            <div class="features-container">
+                <h2 class="section-title">Why Choose Indore IT Hub?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">✅</div>
+                        <h3>Verified Companies</h3>
+                        <p>All companies are verified with real addresses, contact info, and genuine reviews from Google.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h3>Smart Filtering</h3>
+                        <p>Filter by rating, location, services, and availability to find your perfect IT partner.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💾</div>
+                        <h3>Track Your Search</h3>
+                        <p>Mark companies as visited and track your research progress with our interactive checkboxes.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>Real Reviews</h3>
+                        <p>See genuine customer reviews and ratings to make informed decisions.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌐</div>
+                        <h3>Direct Access</h3>
+                        <p>Get instant access to websites, phone numbers, and email addresses of all companies.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📥</div>
+                        <h3>Export Data</h3>
+                        <p>Export your shortlisted companies for offline reference and team collaboration.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Listings Page -->
+    <div id="listingsPage">
+        <div class="listings-container">
+            <div class="listings-header">
+                <h1>🏢 Complete IT Companies Directory</h1>
+                <p class="subtitle">All verified IT companies in Indore with interactive tracking</p>
+            </div>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalCompanies">59</div>
+                    <div class="stat-label">Total Companies</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="visitedCount">0</div>
+                    <div class="stat-label">Visited/Contacted</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="avgRating">4.5</div>
+                    <div class="stat-label">Average Rating</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="filteredCount">59</div>
+                    <div class="stat-label">Showing</div>
+                </div>
+            </div>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <label>🔍 Search Companies</label>
+                    <input type="text" id="searchInput" placeholder="Search by name, location, or service...">
+                </div>
+                <div class="filter-group">
+                    <label>⭐ Filter by Rating</label>
+                    <select id="ratingFilter">
+                        <option value="all">All Ratings</option>
+                        <option value="5">5.0 Stars</option>
+                        <option value="4.8">4.8+ Stars</option>
+                        <option value="4.5">4.5+ Stars</option>
+                        <option value="4">4.0+ Stars</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>✅ Filter by Status</label>
+                    <select id="visitedFilter">
+                        <option value="all">All Companies</option>
+                        <option value="visited">Visited Only</option>
+                        <option value="notVisited">Not Visited</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>&nbsp;</label>
+                    <button class="btn btn-secondary" onclick="clearAllVisited()">Clear All Checkmarks</button>
+                </div>
+            </div>
+
+            <div class="companies-grid" id="companiesGrid"></div>
+
+            <div class="export-section">
+                <h3>📥 Export Your Data</h3>
+                <p style="margin: 10px 0; color: #666;">Your visited companies are saved in your browser. Export for backup!</p>
+                <button class="btn" onclick="exportVisited()">Export Visited Companies</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const companies = [
+            {
+                name: "Ubikon Technologies Pvt Ltd",
+                rating: 5.0,
+                reviews: 564,
+                address: "2nd Floor, Swaraj Enterprises, above Table World, Vijay Nagar, Indore",
+                phone: "+91 6264818989",
+                email: "contact@ubikon.in",
+                website: "https://ubikon.in",
+                hours: "Open 24 hours",
+                services: "Website Design & Mobile App Development"
+            },
+            {
+                name: "Alphawizz Technologies Pvt. Ltd.",
+                rating: 4.6,
+                reviews: 778,
+                address: "Plot Number 152, Ratanlok Colony, Scheme No 53, near Cars 24 showroom, Indore",
+                phone: "+91 8815399989",
+                email: "info@alphawizz.com",
+                website: "https://alphawizz.com",
+                hours: "Opens 10 AM",
+                services: "Software Development"
+            },
+            {
+                name: "Savo Technologies Private Limited",
+                rating: 4.7,
+                reviews: 58,
+                address: "139, PU4, Behind C21 Mall, Vijay Nagar, Scheme 54, Indore",
+                phone: "+91 7502901234",
+                email: "contact@savoglobal.com",
+                website: "https://savoglobal.com",
+                hours: "Open 24 hours",
+                services: "Enterprise Solutions"
+            },
+            {
+                name: "Black Grapes Softech",
+                rating: 4.3,
+                reviews: 52,
+                address: "252-F/H Scheme No 54, Vijaynagar, Indore",
+                phone: "+91 7470997884",
+                email: "info@blackgrapessoftech.com",
+                website: "https://blackgrapessoftech.com",
+                hours: "Closes 4:09 AM",
+                services: "Web & Mobile Development"
+            },
+            {
+                name: "TECHRENA TECHNOLOGIES",
+                rating: 4.7,
+                reviews: 75,
+                address: "OFFICE 408, 4TH FLOOR APOLLO PREMIER, Vijay Nagar Square, Indore",
+                phone: "+91 8982650208",
+                website: "https://www.techrenatech.com",
+                hours: "Opens 10 AM",
+                services: "IT Solutions"
+            },
+            {
+                name: "i-SOFTZONE - Software Development Company",
+                rating: 4.1,
+                reviews: 91,
+                address: "Shagun Arcade, Vijay Nagar Square, 215, AB Rd, near Medanta Hospital, Indore",
+                phone: "+91 7415664456",
+                website: "https://isoftzone.com",
+                hours: "Opens 10 AM",
+                services: "Software Development",
+                review: "Team is very professional and meet delivery before time"
+            },
+            {
+                name: "Samyotech Software Solutions Pvt. Ltd.",
+                rating: 4.6,
+                reviews: 66,
+                address: "1st Floor Pramukh Plaza, near Sajan Prabha Garden, Indore",
+                phone: "+91 7869999639",
+                website: "https://samyotech.com",
+                hours: "Opens 10 AM",
+                services: "Software Solutions"
+            },
+            {
+                name: "BridgeFix Technology Private Limited",
+                rating: 4.8,
+                reviews: 50,
+                address: "389-390, Indore",
+                phone: "+91 9425960946",
+                website: "https://bridgefix.com",
+                hours: "Opens 9:30 AM",
+                services: "Software Development",
+                review: "Supportive staff to learn new things and very healthy environment"
+            },
+            {
+                name: "Golden Eagle IT Technologies",
+                rating: 4.1,
+                reviews: 43,
+                address: "4th Floor, Plot No. 8, opposite chai coffee, Indore",
+                phone: "+91 9584309000",
+                website: "https://goldeneagleit.com",
+                hours: "Open 24 hours",
+                services: "IT Solutions"
+            },
+            {
+                name: "Beyond Key",
+                rating: 4.6,
+                reviews: 112,
+                address: "901A, 9th Floor, NRK Business Park, PU4, Vijay Nagar Square, Indore",
+                phone: "+91 731 4721700",
+                website: "https://beyondkey.com",
+                hours: "Opens 10 AM",
+                services: "Software Development",
+                review: "Great place to work and excellent supportive leadership"
+            },
+            {
+                name: "Dwellfox Private Limited",
+                rating: 4.8,
+                reviews: 99,
+                address: "405, Apollo Premier, Vijay Nagar Square, Indore",
+                phone: "+91 9303083558",
+                website: "https://dwellfox.com",
+                hours: "Closes 4 AM",
+                services: "AI & ML, Staff Augmentation, ServiceNow, Salesforce",
+                review: "Reliable and trustworthy company that delivers on promises"
+            },
+            {
+                name: "Nagar Software Solution Pvt Ltd",
+                rating: 4.8,
+                reviews: 17,
+                address: "308, Shagun Arcade, Indore",
+                phone: "+91 7772999694",
+                website: "https://nagarsoftware.com",
+                hours: "Opens 10:30 AM",
+                services: "Software Solutions"
+            },
+            {
+                name: "InTouch Software Solution",
+                rating: 4.9,
+                reviews: 28,
+                address: "903, NRK Business Park, Vijay Nagar Square, Indore",
+                phone: "+91 9691565883",
+                website: "https://intouchsoftware.in",
+                hours: "Opens 8:30 AM",
+                services: "Website & Social Media Management",
+                review: "They handled our website and social media professionally"
+            },
+            {
+                name: "Qualimatrix Technologies Pvt Ltd",
+                rating: 4.9,
+                reviews: 31,
+                address: "Cliffton Corporate, 505-506, Indore",
+                phone: "+91 8103353297",
+                website: "https://qualimatrix.com",
+                hours: "Opens 9 AM",
+                services: "Software Solutions"
+            },
+            {
+                name: "Logical Soft Tech Private Limited",
+                rating: 4.4,
+                reviews: 148,
+                address: "388, PU4, next to Krozzon Hotel, Indore",
+                phone: "+91 8210251824",
+                website: "https://logicalsofttech.com",
+                hours: "Opens 10 AM",
+                services: "Mobile App, Website Development, SEO/SMM",
+                review: "Got my app on time developed and delivered"
+            },
+            {
+                name: "Systology Software Pvt. Ltd.",
+                rating: 4.9,
+                reviews: 10,
+                address: "5/3 Scheme No 54, Indore",
+                phone: "+91 9630904115",
+                website: "https://systology.co.in",
+                hours: "Opens 9 AM",
+                services: "Software Solutions",
+                review: "Top-notch software solutions that meet needs perfectly"
+            },
+            {
+                name: "Covetus Technologies Pvt Ltd",
+                rating: 4.0,
+                reviews: 23,
+                address: "256, Scheme No 78 - III, Indore",
+                phone: "+91 731 4200152",
+                website: "https://covetus.in",
+                hours: "Open 24 hours",
+                services: "Software Development",
+                review: "Excellent working experience"
+            },
+            {
+                name: "Shanti Infosoft LLP",
+                rating: 4.8,
+                reviews: 95,
+                address: "1st-3rd floor PU4, Plot no 70, Vijay Nagar Square, Indore",
+                phone: "+91 9981225000",
+                website: "https://shantiinfosoft.com",
+                hours: "Opens 10 AM",
+                services: "AI / Web and App Design & Development"
+            },
+            {
+                name: "HotWax Systems",
+                rating: 4.2,
+                reviews: 109,
+                address: "80, Indore",
+                phone: "+91 731 4093684",
+                website: "https://www.hotwaxsystems.com",
+                hours: "Opens 9 AM",
+                services: "E-commerce Solutions",
+                review: "Passionate about their work"
+            },
+            {
+                name: "EncoreSky Technologies Pvt Ltd",
+                rating: 4.6,
+                reviews: 63,
+                address: "350, Indore",
+                phone: "+91 731 4967837",
+                website: "https://encoresky.com",
+                hours: "Opens 10 AM",
+                services: "Software Development",
+                review: "Awesome place to work and great environment"
+            },
+            {
+                name: "Webllisto",
+                rating: 4.7,
+                reviews: 61,
+                address: "801, Airen Heights, Indore",
+                phone: "+91 9589849623",
+                website: "https://webllisto.com",
+                hours: "Opens 10:30 AM",
+                services: "Web Solutions"
+            },
+            {
+                name: "Techcoopers Software Solutions Pvt. Ltd.",
+                rating: 4.5,
+                reviews: 28,
+                address: "Plot No 8, 2nd Floor, Brilliant Platina, Indore",
+                phone: "+91 731 4912780",
+                website: "https://techcoopers.com",
+                hours: "Opens 10 AM",
+                services: "Software Development",
+                review: "Best company"
+            },
+            {
+                name: "Techlene Software Solutions Pvt. Ltd.",
+                rating: 4.1,
+                reviews: 30,
+                address: "P101, Metro Tower, Near, Vijay Nagar Square, near Mangal city, Indore",
+                phone: "+91 7047575000",
+                website: "https://techlene.com",
+                hours: "Opens 10 AM",
+                services: "Software Solutions"
+            },
+            {
+                name: "IntelliaTech Solutions Pvt Ltd",
+                rating: 4.2,
+                reviews: 60,
+                address: "Plot No.120, near Ana Convent School, Indore",
+                phone: "+91 731 4977140",
+                website: "https://intelliatech.com",
+                hours: "Opens 10 AM",
+                services: "IT Solutions",
+                review: "Great working culture and supportive colleagues"
+            },
+            {
+                name: "Hyperbeans Technologies Pvt Ltd",
+                rating: 4.2,
+                reviews: 59,
+                address: "A-58, Basant Vihar, AB Rd, behind SBI, Indore",
+                phone: "+91 8962868389",
+                website: "https://hyperbeans.com",
+                hours: "Opens 10:30 AM",
+                services: "Software Development",
+                review: "Always on a tight timeline to match client's need"
+            },
+            {
+                name: "Simply Alliance Software Solutions Pvt Ltd.",
+                rating: 4.8,
+                reviews: 11,
+                address: "104, 1st Floor, Vijay Nagar Square, Indore",
+                website: "https://simplyalliance.com",
+                hours: "Opens 11 AM",
+                services: "Software Solutions",
+                review: "Work environment is very good, great place to learn and grow"
+            },
+            {
+                name: "Teclive Technology Pvt. Ltd.",
+                rating: 4.9,
+                reviews: 27,
+                address: "EK 358 Scheme No 54, Indore",
+                phone: "+91 9111118291",
+                website: "https://teclive.co.in",
+                hours: "Opens 11 AM",
+                services: "Software Development",
+                review: "Excellent development skills"
+            },
+            {
+                name: "Evision Software Solutions Pvt. Ltd.",
+                rating: 4.5,
+                reviews: 18,
+                address: "2nd Floor, 296 PU4, Commercial Scheme 54, behind Orbit Mall, near Malhar Mega Mall, Indore",
+                phone: "+91 7999058883",
+                website: "https://evisionsoftware.in",
+                hours: "Opens 10 AM",
+                services: "Software Solutions",
+                review: "Support team is responsive, professional, and ready to assist"
+            },
+            {
+                name: "ESP Softtech PVT LTD",
+                rating: 4.8,
+                reviews: 87,
+                address: "601-602 Princess Business Skyline PU3, Indore",
+                phone: "+91 8109784984",
+                website: "https://espsofttech.com",
+                hours: "Opens 10 AM",
+                services: "Blockchain Development"
+            },
+            {
+                name: "Crackkart Infotech Pvt Ltd",
+                rating: 4.9,
+                reviews: 65,
+                address: "AG-131 Scheme No.54, Indore",
+                phone: "+91 7224077568",
+                website: "https://crackkart.com",
+                hours: "Opens 9 AM",
+                services: "E-commerce Solutions"
+            },
+            {
+                name: "EasyComm Innovations Pvt Ltd",
+                rating: 5.0,
+                reviews: 52,
+                address: "9th Floor, 902, Cliffton Corporate, Indore",
+                phone: "+91 9244123567",
+                website: "https://easycomm.in",
+                hours: "Opens 10 AM",
+                services: "Software Solutions"
+            },
+            {
+                name: "Bynebits Infotech Pvt. Ltd.",
+                rating: 4.9,
+                reviews: 31,
+                address: "3rd Floor, Prestige Vihar, Indore",
+                phone: "+91 8982815326",
+                website: "https://bynebits.com",
+                hours: "Opens 10 AM",
+                services: "Software Development"
+            },
+            {
+                name: "Aahan Technologies",
+                rating: 4.8,
+                reviews: 40,
+                address: "Indore, Madhya Pradesh",
+                phone: "+91 8959362108",
+                website: "https://aahan.co.in",
+                hours: "Opens 10 AM",
+                services: "IT Solutions",
+                review: "Technical support team helped solve all issues very promptly"
+            },
+            {
+                name: "bluewebspark technologies",
+                rating: 4.8,
+                reviews: 20,
+                address: "NRK Business Park, Vijay Nagar, Scheme No 54, Indore, MP 452010",
+                website: "https://bluewebspark.com",
+                hours: "Open 24 hours",
+                services: "Web Solutions"
+            },
+            {
+                name: "Softvyom Consulting Services Pvt. Ltd.",
+                rating: 5.0,
+                reviews: 25,
+                address: "Shagun Arcade, 312, near Medanta Hospital, Indore",
+                website: "https://softvyom.com",
+                hours: "Opens 10 AM",
+                services: "Consulting & Development"
+            },
+            {
+                name: "CYBEANS",
+                rating: 5.0,
+                reviews: 13,
+                address: "1/12, Vijay Nagar Square, Indore",
+                phone: "+91 9406786739",
+                website: "https://cybeans.com",
+                hours: "Opens 8 AM",
+                services: "IT Solutions",
+                review: "Exceptional IT solutions—prompt, professional, innovative"
+            },
+            {
+                name: "Techpanda IT Services",
+                rating: 4.1,
+                reviews: 43,
+                address: "Plot Number 109-110 PU4, behind C21 Mall, Indore",
+                phone: "+91 9009041407",
+                website: "https://techpanda.co.in",
+                hours: "Opens 10 AM",
+                services: "Software Development, Web & App Development",
+                review: "Great place to start a career with strong team support"
+            },
+            {
+                name: "Quintus Tech Pvt Ltd",
+                rating: 4.8,
+                reviews: 54,
+                address: "Shagun Arcade, 505, Plot No-8, near Apna Sweets, Indore",
+                website: "https://quintustech.com",
+                hours: "Opens 10 AM",
+                services: "IT Solutions"
+            },
+            {
+                name: "SSV Technologies",
+                rating: 3.9,
+                reviews: 65,
+                address: "26, AB Rd, Scheme 54 PU4, Indore",
+                phone: "+91 9039063936",
+                website: "https://ssvtechnologies.com",
+                hours: "Opens 9:30 AM",
+                services: "IT Services",
+                review: "Best IT company in indore and better service"
+            },
+            {
+                name: "Techrefic Technologies Pvt. Ltd.",
+                rating: 4.6,
+                reviews: 26,
+                address: "Virtual Coworks, 4th Floor, Mangal city, Vijay Nagar Square, Indore",
+                phone: "+91 9644488830",
+                website: "https://techrefic.com",
+                hours: "Operating hours vary",
+                services: "IT Solutions"
+            },
+            {
+                name: "Cognizant Technology Solutions India Pvt Ltd",
+                rating: 4.8,
+                reviews: 71,
+                address: "3rd Floor, Brilliant Titanium, Plot No. 9, Indore",
+                website: "https://www.cognizant.com",
+                hours: "Opens 9 AM",
+                services: "Enterprise IT Services",
+                review: "Newly built office of Cognizant"
+            },
+            {
+                name: "AVALON SOLUTIONS PVT LTD",
+                rating: 3.7,
+                reviews: 73,
+                address: "PSP 11, Scheme No 78 - II, Indore",
+                phone: "+91 731 2553368",
+                website: "https://www.avalonsolutions.com",
+                hours: "Opens 11 AM",
+                services: "IT Solutions",
+                review: "Very good company with neat and clean exteriors"
+            },
+            {
+                name: "Appstean Infotech Pvt. Ltd.",
+                rating: 4.2,
+                reviews: 66,
+                address: "Skye Corporate Park, 603-604, Indore",
+                phone: "+91 9644410244",
+                website: "https://appstean.com",
+                hours: "Opens 10 AM",
+                services: "Software Development",
+                review: "Leadership team has great inclination towards upskilling"
+            },
+            {
+                name: "CDN Solutions Group",
+                rating: 3.8,
+                reviews: 107,
+                address: "Unit No. 304, Princes Business Skypark, AB Rd, Indore",
+                phone: "+91 731 4035928",
+                website: "https://www.cdnsol.com",
+                hours: "Opens 10 AM",
+                services: "IT Services",
+                review: "Flexible working timings and great clientele"
+            },
+            {
+                name: "TechForest Software Pvt. Ltd.",
+                rating: 5.0,
+                reviews: 30,
+                address: "SCH. NO. 54, GF-7, near SICA School Road, Indore",
+                phone: "+91 731 4907880",
+                website: "https://techforest.in",
+                hours: "Open 24 hours",
+                services: "Hospital ERP, School ERP, App Development"
+            },
+            {
+                name: "Webkorps Services India Private Limited",
+                rating: 4.6,
+                reviews: 72,
+                address: "4th Floor, Winway World Offices, Indore",
+                website: "https://webkorps.com",
+                hours: "Opens 10 AM",
+                services: "IT Services",
+                review: "Really good IT company in Indore"
+            },
+            {
+                name: "SoftGetix - IT Staff Augmentation Services",
+                rating: 4.4,
+                reviews: 17,
+                address: "519, Shagun Tower, Vijay Nagar Square, Indore",
+                phone: "+91 731 4002699",
+                website: "https://softgetix.com",
+                hours: "Opens 10 AM",
+                services: "IT Staff Augmentation"
+            },
+            {
+                name: "Techvalens Software Systems",
+                rating: 4.1,
+                reviews: 112,
+                address: "410-OM Gurudev Plaza, Plot No.26 Scheme No.54, Indore",
+                phone: "+91 9644506070",
+                website: "https://techvalens.com",
+                hours: "Opens 10 AM",
+                services: "Software Development",
+                review: "Great place to work with amazing peeps"
+            },
+            {
+                name: "DXC Technology",
+                rating: 4.1,
+                reviews: 286,
+                address: "4th & 5th Floor, Brilliant Titanium, Plot No. 9, Scheme 78, Part II, Indore",
+                phone: "+91 731 4430666",
+                website: "https://dxc.com",
+                hours: "Opens 9 AM",
+                services: "Enterprise IT Services",
+                review: "Best service performance"
+            },
+            {
+                name: "Applatus Technologies Private Limited",
+                rating: 5.0,
+                reviews: 11,
+                address: "2nd floor, Plot no. 347, Indore",
+                phone: "+91 9111107373",
+                website: "https://applatus.com",
+                hours: "Opens 9 AM",
+                services: "IT Consulting",
+                review: "Satisfied with your consulting services"
+            },
+            {
+                name: "Walkover Web Solutions Private Limited",
+                rating: 4.1,
+                reviews: 131,
+                address: "5th Floor, LIC Tower, AB Rd, opposite Orbit Mall, Indore",
+                phone: "+91 731 2560056",
+                website: "https://walkover.in",
+                hours: "Opens 9:30 AM",
+                services: "Web Solutions",
+                review: "Good culture for work"
+            },
+            {
+                name: "Maven Cluster",
+                rating: 4.3,
+                reviews: 59,
+                address: "173 PU4, Indore",
+                phone: "+91 9755555032",
+                website: "https://mavencluster.com",
+                hours: "Opens 10 AM",
+                services: "Software Solutions"
+            },
+            {
+                name: "Webgility",
+                rating: 4.5,
+                reviews: 48,
+                address: "102 A-B, NRK Business Park, Indore",
+                phone: "+91 8777535373",
+                website: "https://www.webgility.com",
+                hours: "Opens 10 AM",
+                services: "E-commerce Solutions",
+                review: "Great place to work"
+            },
+            {
+                name: "The AVS Technology",
+                rating: 4.5,
+                reviews: 23,
+                address: "LG49, Orbit Mall, near C21 Mall, Indore",
+                phone: "+91 7440449139",
+                website: "https://theavstechnology.com",
+                hours: "Opens 10 AM",
+                services: "Software & Website Development"
+            },
+            {
+                name: "Elicit Digital",
+                rating: 4.7,
+                reviews: 49,
+                address: "Plot No. 345, 346, 3rd floor Above Krozzon Bakery, Scheme 54 PU4, Indore",
+                phone: "+91 9111555876",
+                website: "https://elicitdigital.com",
+                hours: "Opens 10 AM",
+                services: "AI-Driven Mobile App & Web Development"
+            },
+            {
+                name: "Lemosys",
+                rating: 4.3,
+                reviews: 69,
+                address: "Plot 169, Scheme 78, Part II, Behind Kanak Hospital, Indore",
+                phone: "+91 731 4091887",
+                website: "https://lemosys.com",
+                hours: "Opens 9 AM",
+                services: "Web Design & Development, IT Staff Augmentation"
+            },
+            {
+                name: "Snayvik Tech Labs Private Limited",
+                rating: 4.9,
+                reviews: 26,
+                address: "Krishna Business Center, 118, Plot No. 11, near Medanta Hospital, Indore",
+                phone: "+91 7415519332",
+                website: "https://snayvik.com",
+                hours: "Opens 9:30 AM",
+                services: "Software Solutions",
+                review: "Friendly environment and understanding team"
+            },
+            {
+                name: "FxBytes Technologies Pvt Ltd",
+                rating: 4.1,
+                reviews: 21,
+                address: "Office No. 314, Shagun Tower A.B. Road, Vijay Nagar Square, Indore",
+                website: "https://fxbytes.com",
+                hours: "Opens 8 AM",
+                services: "Software Development",
+                review: "Excellent company with experienced team lead"
+            },
+            {
+                name: "AT Technologies",
+                rating: 5.0,
+                reviews: 11,
+                address: "Plot 30, First Floor, Scheme No 78 - III, Sector B, Indore",
+                website: "https://attechnologies.in",
+                hours: "Opens 10 AM",
+                services: "IT Solutions"
+            }
+        ];
+
+        let visitedCompanies = JSON.parse(localStorage.getItem('visitedCompanies') || '{}');
+
+        function showPage(page) {
+            if (page === 'landing') {
+                document.getElementById('landingPage').style.display = 'block';
+                document.getElementById('listingsPage').style.display = 'none';
+            } else if (page === 'listings') {
+                document.getElementById('landingPage').style.display = 'none';
+                document.getElementById('listingsPage').style.display = 'block';
+                renderCompanies();
+                updateStats();
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('navMenu');
+            menu.classList.toggle('active');
+        }
+
+        function scrollToFeatures() {
+            document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function updateStats() {
+            const visitedCount = Object.values(visitedCompanies).filter(v => v).length;
+            document.getElementById('visitedCount').textContent = visitedCount;
+            document.getElementById('totalCompanies').textContent = companies.length;
+        }
+
+        function toggleVisited(companyName, checkbox) {
+            visitedCompanies[companyName] = checkbox.checked;
+            localStorage.setItem('visitedCompanies', JSON.stringify(visitedCompanies));
+            updateStats();
+            
+            const card = checkbox.closest('.company-card');
+            if (checkbox.checked) {
+                card.classList.add('visited');
+            } else {
+                card.classList.remove('visited');
+            }
+        }
+
+        function renderCompanies(filteredCompanies = companies) {
+            const grid = document.getElementById('companiesGrid');
+            document.getElementById('filteredCount').textContent = filteredCompanies.length;
+            
+            if (filteredCompanies.length === 0) {
+                grid.innerHTML = '<div class="no-results">No companies found matching your criteria 😔</div>';
+                return;
+            }
+
+            grid.innerHTML = filteredCompanies.map(company => {
+                const isVisited = visitedCompanies[company.name] || false;
+                return `
+                    <div class="company-card ${isVisited ? 'visited' : ''}">
+                        <div class="company-header">
+                            <div class="company-name">${company.name}</div>
+                            <input type="checkbox" 
+                                   class="visited-checkbox" 
+                                   ${isVisited ? 'checked' : ''}
+                                   onchange="toggleVisited('${company.name.replace(/'/g, "\\'")}', this)"
+                                   title="Mark as visited">
+                        </div>
+                        <div class="rating">⭐ ${company.rating} (${company.reviews} reviews)</div>
+                        <div class="company-info">
+                            <strong>📍 Address:</strong> ${company.address}
+                        </div>
+                        ${company.phone ? `<div class="company-info"><strong>📞 Phone:</strong> ${company.phone}</div>` : ''}
+                        ${company.email ? `<div class="company-info"><strong>📧 Email:</strong> ${company.email}</div>` : ''}
+                        <div class="company-info">
+                            <strong>🕒 Hours:</strong> ${company.hours}
+                        </div>
+                        <div class="company-info">
+                            <strong>💼 Services:</strong> ${company.services}
+                        </div>
+                        ${company.review ? `<div class="review">"${company.review}"</div>` : ''}
+                        <a href="${company.website}" target="_blank" class="company-link">🌐 Visit Website</a>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterCompanies() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const ratingFilter = parseFloat(document.getElementById('ratingFilter').value);
+            const visitedFilter = document.getElementById('visitedFilter').value;
+
+            let filtered = companies.filter(company => {
+                const matchesSearch = company.name.toLowerCase().includes(searchTerm) ||
+                                    company.address.toLowerCase().includes(searchTerm) ||
+                                    company.services.toLowerCase().includes(searchTerm);
+                
+                const matchesRating = isNaN(ratingFilter) || company.rating >= ratingFilter;
+                
+                let matchesVisited = true;
+                if (visitedFilter === 'visited') {
+                    matchesVisited = visitedCompanies[company.name] === true;
+                } else if (visitedFilter === 'notVisited') {
+                    matchesVisited = !visitedCompanies[company.name];
+                }
+
+                return matchesSearch && matchesRating && matchesVisited;
+            });
+
+            renderCompanies(filtered);
+        }
+
+        function clearAllVisited() {
+            if (confirm('Are you sure you want to clear all checkmarks?')) {
+                visitedCompanies = {};
+                localStorage.setItem('visitedCompanies', JSON.stringify(visitedCompanies));
+                updateStats();
+                filterCompanies();
+            }
+        }
+
+        function exportVisited() {
+            const visited = companies.filter(c => visitedCompanies[c.name]);
+            const data = visited.map(c => `${c.name}\n${c.website}\n${c.phone || 'N/A'}\n---`).join('\n');
+            
+            const blob = new Blob([`Visited Companies (${visited.length})\n\n${data}`], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'visited-companies.txt';
+            a.click();
+        }
+
+        document.getElementById('searchInput').addEventListener('input', filterCompanies);
+        document.getElementById('ratingFilter').addEventListener('change', filterCompanies);
+        document.getElementById('visitedFilter').addEventListener('change', filterCompanies);
+
+        // Initialize on page load
+        updateStats();
+    </script>
+</body>
+</html>
