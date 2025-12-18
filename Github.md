@@ -1331,3 +1331,970 @@ git clean -i
 ```
 Working Directory  →  📦 Stash Stack  →  Working Directory
    (changes)           (stored)            (restored)
+```
+
+**Use Cases:**
+
+```bash
+# Stash current changes
+git stash
+git stash save "Work in progress"
+
+# Stash with untracked files
+git stash -u
+git stash --include-untracked
+
+# Stash everything including ignored files
+git stash -a
+git stash --all
+
+# List all stashes
+git stash list
+
+# Show stash content
+git stash show
+git stash show -p stash@{0}
+
+# Apply latest stash (keep in stash list)
+git stash apply
+
+# Apply specific stash
+git stash apply stash@{2}
+
+# Apply and remove latest stash
+git stash pop
+
+# Apply and remove specific stash
+git stash pop stash@{1}
+
+# Create branch from stash
+git stash branch new-branch-name
+
+# Remove specific stash
+git stash drop stash@{1}
+
+# Clear all stashes
+git stash clear
+
+# Stash only specific files
+git stash push -m "message" file.txt
+
+# Stash interactively
+git stash -p
+```
+
+**Flags:**
+- `save "message"` - Stash with message
+- `-u` or `--include-untracked` - Include untracked files
+- `-a` or `--all` - Include ignored files
+- `list` - List all stashes
+- `show` - Show stash contents
+- `apply` - Apply stash (keep it)
+- `pop` - Apply and remove stash
+- `drop` - Remove stash
+- `clear` - Remove all stashes
+- `branch` - Create branch from stash
+- `-p` or `--patch` - Interactive stashing
+
+**Common Scenarios:**
+
+```bash
+# Scenario 1: Quick context switch
+git stash
+git checkout main
+# ... do work ...
+git checkout feature
+git stash pop
+
+# Scenario 2: Save work with message
+git stash save "Half-finished login feature"
+
+# Scenario 3: Apply stash to different branch
+git stash
+git checkout other-branch
+git stash pop
+```
+
+---
+
+## 🔄 Rewriting History
+
+### `git commit --amend`
+
+**Purpose:** Modify the most recent commit.
+
+**Visual Flow:**
+```
+Before:           After:
+●──●──●          ●──●──◆
+      old              new
+      commit           commit
+                       (replaces old)
+```
+
+**Use Cases:**
+
+```bash
+# Change last commit message
+git commit --amend
+
+# Add files to last commit
+git add forgotten-file.txt
+git commit --amend --no-edit
+
+# Change author of last commit
+git commit --amend --author="Name <email@example.com>"
+
+# Change date of last commit
+git commit --amend --date="2024-12-01 10:00:00"
+```
+
+---
+
+### `git rebase -i` (Interactive Rebase)
+
+**Purpose:** Edit, reorder, squash, or delete commits.
+
+**Use Cases:**
+
+```bash
+# Interactive rebase last 5 commits
+git rebase -i HEAD~5
+
+# Rebase onto main interactively
+git rebase -i main
+
+# Edit specific commit
+git rebase -i abc1234^
+
+# Autosquash fixup commits
+git rebase -i --autosquash HEAD~10
+```
+
+**Interactive Commands:**
+```
+pick    = use commit
+reword  = change commit message
+edit    = stop for amending
+squash  = combine with previous commit
+fixup   = like squash but discard message
+drop    = remove commit
+```
+
+---
+
+### `git filter-branch`
+
+**Purpose:** Rewrite branches (complex history rewriting).
+
+**⚠️ Warning:** Use `git filter-repo` instead (modern alternative).
+
+**Use Cases:**
+
+```bash
+# Remove file from all history
+git filter-branch --tree-filter 'rm -f passwords.txt' HEAD
+
+# Change author in all commits
+git filter-branch --env-filter '
+if [ "$GIT_AUTHOR_EMAIL" = "old@email.com" ]; then
+    export GIT_AUTHOR_EMAIL="new@email.com"
+fi' HEAD
+```
+
+**Better Alternative: git filter-repo**
+```bash
+# Install first: pip install git-filter-repo
+
+# Remove file from history
+git filter-repo --path passwords.txt --invert-paths
+
+# Change author
+git filter-repo --mailmap mailmap.txt
+```
+
+---
+
+### `git reflog`
+
+**Purpose:** Reference logs - track where HEAD has been.
+
+**Use Cases:**
+
+```bash
+# Show reflog
+git reflog
+
+# Show reflog with dates
+git reflog --date=relative
+
+# Recover lost commit
+git reflog
+git checkout abc1234  # or git reset --hard abc1234
+
+# Show reflog for specific branch
+git reflog show main
+
+# Expire old reflog entries
+git reflog expire --expire=30.days.ago --all
+```
+
+**Common Scenario - Recover Lost Commits:**
+```bash
+# 1. Made a mistake with reset
+git reset --hard HEAD~3
+
+# 2. Find lost commits
+git reflog
+
+# 3. Recover
+git reset --hard abc1234  # hash from reflog
+```
+
+---
+
+## 🏷️ Tagging
+
+### `git tag`
+
+**Purpose:** Create, list, delete, or verify tags.
+
+**Visual Concept:**
+```
+●──●──●──●──●
+      ↑      ↑
+    v1.0   v2.0
+    (tag)  (tag)
+```
+
+**Use Cases:**
+
+```bash
+# List all tags
+git tag
+
+# List tags matching pattern
+git tag -l "v1.*"
+git tag --list "v2.*"
+
+# Create lightweight tag
+git tag v1.0.0
+
+# Create annotated tag (recommended)
+git tag -a v1.0.0 -m "Release version 1.0.0"
+
+# Tag specific commit
+git tag -a v0.9.0 abc1234 -m "Beta release"
+
+# Show tag information
+git show v1.0.0
+
+# Push tag to remote
+git push origin v1.0.0
+
+# Push all tags
+git push --tags
+git push origin --tags
+
+# Delete local tag
+git tag -d v1.0.0
+git tag --delete v1.0.0
+
+# Delete remote tag
+git push origin --delete v1.0.0
+git push origin :refs/tags/v1.0.0
+
+# Checkout tag (detached HEAD)
+git checkout v1.0.0
+
+# Create branch from tag
+git checkout -b version1-hotfix v1.0.0
+
+# List tags with commit messages
+git tag -n
+
+# Verify signed tag
+git tag -v v1.0.0
+```
+
+**Flags:**
+- `-a` - Create annotated tag
+- `-m` - Tag message
+- `-l` or `--list` - List tags
+- `-d` or `--delete` - Delete tag
+- `-n` - Show tag with commit message
+- `-v` - Verify signed tag
+- `-s` - Create signed tag
+
+**Tag Naming Convention:**
+```
+v1.0.0        - Major release
+v1.1.0        - Minor release
+v1.1.1        - Patch release
+v2.0.0-rc.1   - Release candidate
+v1.0.0-beta   - Beta version
+```
+
+---
+
+## 🚀 Advanced Operations
+
+### `git cherry-pick`
+
+**Purpose:** Apply changes from specific commits.
+
+**Visual Flow:**
+```
+main    ●──●──●
+           │
+feature    └──●──●──●
+              specific
+              commit  →  cherry-pick  →  main  ●──●──●──◆
+```
+
+**Use Cases:**
+
+```bash
+# Cherry-pick single commit
+git cherry-pick abc1234
+
+# Cherry-pick multiple commits
+git cherry-pick abc1234 def5678
+
+# Cherry-pick commit range
+git cherry-pick abc1234..def5678
+
+# Cherry-pick without committing
+git cherry-pick -n abc1234
+git cherry-pick --no-commit abc1234
+
+# Continue after resolving conflicts
+git cherry-pick --continue
+
+# Abort cherry-pick
+git cherry-pick --abort
+
+# Cherry-pick and edit message
+git cherry-pick -e abc1234
+git cherry-pick --edit abc1234
+```
+
+---
+
+### `git bisect`
+
+**Purpose:** Use binary search to find commit that introduced a bug.
+
+**Visual Process:**
+```
+good ●──●──●──●──●──● bad
+         ↓
+    Testing middle commit
+         ↓
+    Narrow down range
+         ↓
+    Find buggy commit
+```
+
+**Use Cases:**
+
+```bash
+# Start bisecting
+git bisect start
+
+# Mark current commit as bad
+git bisect bad
+
+# Mark last known good commit
+git bisect good abc1234
+
+# Git will checkout middle commit
+# Test the code, then mark as good or bad
+git bisect good   # if working
+git bisect bad    # if broken
+
+# Continue until bug is found
+# Git will show you the bad commit
+
+# End bisecting
+git bisect reset
+
+# Automate bisecting with script
+git bisect start
+git bisect bad
+git bisect good abc1234
+git bisect run npm test  # or any test command
+
+# Skip commit if it can't be tested
+git bisect skip
+```
+
+---
+
+### `git worktree`
+
+**Purpose:** Manage multiple working trees attached to same repository.
+
+**Use Cases:**
+
+```bash
+# List worktrees
+git worktree list
+
+# Add new worktree
+git worktree add ../feature-worktree feature-branch
+
+# Add worktree with new branch
+git worktree add -b new-feature ../new-feature-worktree
+
+# Remove worktree
+git worktree remove ../feature-worktree
+
+# Prune worktree information
+git worktree prune
+```
+
+---
+
+### `git submodule`
+
+**Purpose:** Manage repositories inside repositories.
+
+**Use Cases:**
+
+```bash
+# Add submodule
+git submodule add https://github.com/user/repo.git path/to/submodule
+
+# Initialize submodules
+git submodule init
+
+# Update submodules
+git submodule update
+
+# Clone with submodules
+git clone --recurse-submodules https://github.com/user/repo.git
+
+# Update all submodules to latest
+git submodule update --remote
+
+# Execute command in all submodules
+git submodule foreach 'git pull origin main'
+
+# Remove submodule
+git submodule deinit path/to/submodule
+git rm path/to/submodule
+rm -rf .git/modules/path/to/submodule
+```
+
+---
+
+### `git archive`
+
+**Purpose:** Create archive of files from named tree.
+
+**Use Cases:**
+
+```bash
+# Create zip archive
+git archive --format=zip HEAD > project.zip
+
+# Create tar archive
+git archive --format=tar HEAD > project.tar
+
+# Archive specific branch
+git archive --format=zip main > main-branch.zip
+
+# Archive with prefix
+git archive --prefix=project/ HEAD > project.tar.gz
+
+# Archive specific directory
+git archive HEAD:src/ > src.zip
+```
+
+---
+
+### `git shortlog`
+
+**Purpose:** Summarize git log output.
+
+**Use Cases:**
+
+```bash
+# Show commit count by author
+git shortlog -s
+
+# Show with number of commits
+git shortlog -n
+
+# Show with email
+git shortlog -e
+
+# Summary since specific date
+git shortlog --since="2024-01-01"
+```
+
+---
+
+## 🐙 GitHub Specific Commands
+
+### GitHub CLI (`gh`)
+
+**Installation:**
+```bash
+# macOS
+brew install gh
+
+# Windows
+winget install GitHub.cli
+
+# Linux
+sudo apt install gh
+```
+
+**Authentication:**
+```bash
+# Login to GitHub
+gh auth login
+
+# Check auth status
+gh auth status
+```
+
+**Repository Operations:**
+
+```bash
+# Create new repository
+gh repo create my-project --public
+gh repo create my-project --private
+
+# Clone repository
+gh repo clone username/repo
+
+# Fork repository
+gh repo fork username/repo
+
+# View repository
+gh repo view
+gh repo view username/repo --web
+
+# List repositories
+gh repo list
+gh repo list username
+
+# Delete repository
+gh repo delete username/repo
+```
+
+**Pull Request Operations:**
+
+```bash
+# Create pull request
+gh pr create
+gh pr create --title "Add feature" --body "Description"
+
+# List pull requests
+gh pr list
+
+# View pull request
+gh pr view 123
+gh pr view 123 --web
+
+# Checkout pull request
+gh pr checkout 123
+
+# Review pull request
+gh pr review 123 --approve
+gh pr review 123 --request-changes
+gh pr review 123 --comment -b "Looks good!"
+
+# Merge pull request
+gh pr merge 123
+gh pr merge 123 --squash
+gh pr merge 123 --rebase
+
+# Close pull request
+gh pr close 123
+
+# Reopen pull request
+gh pr reopen 123
+```
+
+**Issue Operations:**
+
+```bash
+# Create issue
+gh issue create
+gh issue create --title "Bug report" --body "Description"
+
+# List issues
+gh issue list
+
+# View issue
+gh issue view 456
+
+# Close issue
+gh issue close 456
+
+# Reopen issue
+gh issue reopen 456
+
+# Comment on issue
+gh issue comment 456 --body "This is fixed"
+```
+
+**GitHub Actions:**
+
+```bash
+# List workflows
+gh workflow list
+
+# View workflow runs
+gh run list
+
+# View specific run
+gh run view 789
+
+# Rerun workflow
+gh run rerun 789
+
+# Watch workflow run
+gh run watch
+```
+
+**Release Operations:**
+
+```bash
+# Create release
+gh release create v1.0.0
+gh release create v1.0.0 --notes "Release notes"
+
+# List releases
+gh release list
+
+# View release
+gh release view v1.0.0
+
+# Download release assets
+gh release download v1.0.0
+
+# Delete release
+gh release delete v1.0.0
+```
+
+**Gist Operations:**
+
+```bash
+# Create gist
+gh gist create file.txt
+gh gist create file.txt --public
+
+# List gists
+gh gist list
+
+# View gist
+gh gist view gist-id
+
+# Edit gist
+gh gist edit gist-id
+```
+
+---
+
+## 📝 Useful Git Configurations
+
+### Aliases
+
+```bash
+# Short commands
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.st status
+
+# Pretty log
+git config --global alias.lg "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+
+# Show last commit
+git config --global alias.last 'log -1 HEAD'
+
+# Undo last commit
+git config --global alias.undo 'reset HEAD~1 --mixed'
+
+# Amend without edit
+git config --global alias.amend 'commit --amend --no-edit'
+
+# List aliases
+git config --global alias.aliases 'config --get-regexp alias'
+```
+
+### Global Gitignore
+
+```bash
+# Create global gitignore
+git config --global core.excludesfile ~/.gitignore_global
+
+# Add common patterns
+echo ".DS_Store" >> ~/.gitignore_global
+echo "node_modules/" >> ~/.gitignore_global
+echo ".env" >> ~/.gitignore_global
+echo "*.log" >> ~/.gitignore_global
+```
+
+### Useful Settings
+
+```bash
+# Set default editor
+git config --global core.editor "code --wait"
+
+# Enable colors
+git config --global color.ui auto
+
+# Set default branch name
+git config --global init.defaultBranch main
+
+# Auto-correct typos
+git config --global help.autocorrect 1
+
+# Prune on fetch
+git config --global fetch.prune true
+
+# Rebase on pull
+git config --global pull.rebase true
+
+# Use ssh instead of https
+git config --global url."git@github.com:".insteadOf "https://github.com/"
+```
+
+---
+
+## 🔧 Troubleshooting Commands
+
+### Common Issues
+
+```bash
+# Discard all local changes
+git reset --hard HEAD
+git clean -fd
+
+# Undo last commit (keep changes)
+git reset --soft HEAD~1
+
+# Fix "detached HEAD"
+git checkout main  # or any branch
+
+# Recover deleted branch
+git reflog
+git checkout -b recovered-branch abc1234
+
+# Fix merge conflicts
+git merge --abort  # abort merge
+# or resolve conflicts then:
+git add .
+git commit
+
+# Remove untracked files
+git clean -fd
+
+# Update remote URL
+git remote set-url origin new-url
+
+# Sync fork with upstream
+git fetch upstream
+git checkout main
+git merge upstream/main
+
+# Fix "refusing to merge unrelated histories"
+git pull origin main --allow-unrelated-histories
+
+# Large file issues
+git filter-repo --strip-blobs-bigger-than 10M
+```
+
+---
+
+## 📚 Quick Reference Chart
+
+### File States
+
+| State | Command to Reach | Command to Leave |
+|-------|------------------|------------------|
+| Untracked | Create new file | `git add` |
+| Staged | `git add` | `git reset` |
+| Modified | Edit file | `git add` or `git restore` |
+| Committed | `git commit` | `git reset` |
+
+### Reset Types
+
+| Type | HEAD | Index (Staging) | Working Directory |
+|------|------|-----------------|-------------------|
+| `--soft` | ✅ Changed | ❌ Not Changed | ❌ Not Changed |
+| `--mixed` | ✅ Changed | ✅ Changed | ❌ Not Changed |
+| `--hard` | ✅ Changed | ✅ Changed | ✅ Changed |
+
+### Common Workflows
+
+**Feature Branch Workflow:**
+```bash
+git checkout -b feature-branch
+# ... make changes ...
+git add .
+git commit -m "Add feature"
+git push -u origin feature-branch
+# ... create pull request on GitHub ...
+git checkout main
+git pull origin main
+git branch -d feature-branch
+```
+
+**Hotfix Workflow:**
+```bash
+git checkout main
+git checkout -b hotfix-branch
+# ... fix bug ...
+git add .
+git commit -m "Fix critical bug"
+git checkout main
+git merge hotfix-branch
+git push origin main
+git branch -d hotfix-branch
+```
+
+**Sync Fork:**
+```bash
+git remote add upstream original-repo-url
+git fetch upstream
+git checkout main
+git merge upstream/main
+git push origin main
+```
+
+---
+
+## 🎯 Best Practices
+
+### Commit Messages
+
+✅ **Good:**
+```
+feat(auth): add JWT token authentication
+fix(api): resolve null pointer exception in user service
+docs(readme): update installation instructions
+```
+
+❌ **Bad:**
+```
+fixed stuff
+update
+wip
+asdfgh
+```
+
+### Branching Strategy
+
+```
+main (production)
+  ├── develop (integration)
+  │     ├── feature/user-auth
+  │     ├── feature/payment-gateway
+  │     └── feature/dashboard
+  ├── hotfix/critical-bug
+  └── release/v1.2.0
+```
+
+### Do's and Don'ts
+
+✅ **DO:**
+- Commit often with meaningful messages
+- Use branches for features
+- Pull before pushing
+- Use `.gitignore` properly
+- Review changes before committing
+- Use `git revert` for public branches
+
+❌ **DON'T:**
+- Commit sensitive data (passwords, keys)
+- Force push to shared branches
+- Rewrite public history
+- Commit large binary files
+- Have vague commit messages
+- Work directly on main/master
+
+---
+
+## 🆘 Emergency Commands
+
+```bash
+# "Oh no, I accidentally committed to main!"
+git reset --soft HEAD~1
+git checkout -b feature-branch
+git commit
+
+# "I need to undo everything!"
+git reflog  # find safe point
+git reset --hard abc1234
+
+# "I deleted a branch by mistake!"
+git reflog
+git checkout -b recovered-branch abc1234
+
+# "I committed sensitive data!"
+git filter-repo --path secrets.txt --invert-paths
+git push --force
+
+# "My working directory is a mess!"
+git stash
+git stash drop  # or pop to recover
+
+# "I want to start over!"
+git fetch origin
+git reset --hard origin/main
+git clean -fd
+```
+
+---
+
+## 📖 Resources
+
+- [Official Git Documentation](https://git-scm.com/doc)
+- [GitHub Docs](https://docs.github.com)
+- [Git Cheat Sheet](https://education.github.com/git-cheat-sheet-education.pdf)
+- [Learn Git Branching](https://learngitbranching.js.org/)
+- [Oh My Git!](https://ohmygit.org/) - Interactive Git Learning
+- [Git Explorer](https://gitexplorer.com/) - Find the right command
+
+---
+
+## 🎓 Practice Exercises
+
+1. **Basic Workflow:**
+   - Initialize repository
+   - Make changes and commit
+   - Create branch and merge
+
+2. **Collaboration:**
+   - Fork repository
+   - Create feature branch
+   - Submit pull request
+
+3. **History Manipulation:**
+   - Use interactive rebase
+   - Squash commits
+   - Cherry-pick specific commits
+
+4. **Recovery:**
+   - Practice using reflog
+   - Recover deleted branches
+   - Undo various mistakes
+
+---
+
+**Created with ❤️ for developers and DevOps professionals**
+
+> 💡 **Pro Tip:** Bookmark this guide and refer to it whenever you forget a command. Practice regularly to build muscle memory!
+
+---
+
+**Last Updated:** December 2025  
+**Git Version:** 2.43+  
+**Compatible with:** Linux, macOS, Windows
