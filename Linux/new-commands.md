@@ -1684,3 +1684,641 @@ who -m                          # Shows only entry for current terminal
 
 **Popular flags with examples:**
 ```bash
+
+w                               # Shows all logged-in users and activities
+w -h                            # Omits header with uptime and load
+w -s                            # Short format without login time
+w -f                            # Toggles display of "from" field
+w -i                            # Shows IP addresses instead of hostnames
+w john                          # Shows information only for user 'john'
+
+---
+
+### `last`
+
+**What it is:**
+- Displays history of user logins and system reboots
+- Reads from wtmp log file showing login session history
+
+**What it does:**
+- Lists all login sessions in reverse chronological order with session durations
+- Includes information about system reboots and shutdowns
+
+**When to use:**
+- Reviewing login history to identify unauthorized access attempts
+- Verifying when and from where a user last successfully logged in
+
+**Popular flags with examples:**
+```bash
+last                            # Shows all recent login history
+last john                       # Shows login history for user 'john'
+last -n 10                      # Shows only last 10 login entries
+last -a                         # Shows hostname in last column
+last -d                          # Shows IP addresses for remote hosts
+last -F                         # Shows full login and logout times with dates
+last -x                         # Shows system shutdown entries
+last reboot                     # Shows system reboot history
+last -t 20250101000000          # Shows logins before specific date/time
+last -s 20250101 -t 20250131    # Shows logins within date range
+```
+
+---
+
+### `lastlog`
+
+**What it is:**
+- Displays most recent login information for all users
+- Shows when each user account last successfully logged in
+
+**What it does:**
+- Shows report of all user accounts with recent login time, port, and hostname
+- Helps identify inactive accounts that haven't been used
+
+**When to use:**
+- Identifying unused or dormant accounts during security audits
+- Finding accounts that haven't logged in for deactivation
+
+**Popular flags with examples:**
+```bash
+lastlog                         # Shows last login for all users
+lastlog -u john                 # Shows last login for user 'john'
+lastlog -t 30                   # Shows users who logged in within last 30 days
+lastlog -b 90                   # Shows users who haven't logged in for 90+ days
+lastlog -h                      # Shows help and usage information
+```
+
+---
+
+## Process & Job Management
+
+### `ps`
+
+**What it is:**
+- Displays information about currently running processes
+- Shows process IDs, resource usage, states, and relationships
+
+**What it does:**
+- Lists processes with details like PID, CPU/memory usage, running time, and command
+- Supports multiple output formats and filtering options
+
+**When to use:**
+- Identifying processes consuming excessive CPU or memory resources
+- Finding PID of a running process for debugging or termination
+
+**Popular flags with examples:**
+```bash
+ps                              # Shows processes for current user
+ps aux                          # Shows all processes with detailed information (BSD style)
+ps -ef                          # Shows all processes in full format (System V style)
+ps -u john                      # Shows all processes owned by user 'john'
+ps -p 1234                      # Shows information for specific PID
+ps -C firefox                   # Shows all processes with command name 'firefox'
+ps --forest                     # Shows processes in tree/hierarchy format
+ps aux --sort=-%mem             # Sorts by memory usage (highest first)
+ps aux --sort=-%cpu             # Sorts by CPU usage (highest first)
+ps -eo pid,ppid,cmd,%mem,%cpu  # Custom output format
+ps -ejH                         # Shows process hierarchy with headers
+ps aux | grep nginx             # Finds processes matching 'nginx'
+```
+
+---
+
+### `top`
+
+**What it is:**
+- Provides dynamic real-time view of running processes
+- Continuously updates showing current CPU, memory, and process activity
+
+**What it does:**
+- Displays live dashboard of system performance metrics with automatic updates
+- Lists processes sorted by various criteria with ability to manage them interactively
+
+**When to use:**
+- Identifying which processes are causing slow system performance
+- Monitoring resource usage in real-time during application testing
+
+**Interactive commands:**
+```bash
+top                             # Launches interactive top display
+top -u john                     # Shows only processes for user 'john'
+top -p 1234,5678               # Monitors specific PIDs only
+top -d 5                        # Sets update delay to 5 seconds
+top -n 10                       # Runs 10 iterations then exits
+
+# While top is running:
+M                               # Sorts by memory usage
+P                               # Sorts by CPU usage
+T                               # Sorts by running time
+k                               # Kill a process
+r                               # Renice a process
+u                               # Filter by username
+1                               # Shows individual CPU cores
+h                               # Help screen
+q                               # Quit top
+```
+
+---
+
+### `htop`
+
+**What it is:**
+- Enhanced interactive process viewer improving upon top
+- Provides color-coded displays, mouse support, and intuitive interface
+
+**What it does:**
+- Displays processes in color-coded format with visual meters for resources
+- Provides mouse support for selecting processes and accessing functions
+
+**When to use:**
+- Using a more user-friendly alternative to top with visual indicators
+- Viewing per-core CPU usage on multi-core systems
+
+**Interactive commands:**
+```bash
+htop                            # Launches interactive htop display
+htop -u john                    # Shows only processes for user 'john'
+htop -p 1234,5678              # Monitors specific PIDs
+htop -d 50                      # Sets update delay to 5 seconds
+
+# While htop is running:
+F3 or /                         # Search for process
+F4 or \                         # Filter processes by name
+F5 or t                         # Toggle tree view
+F6 or </>                       # Select sort column
+F9 or k                         # Kill process
+F10 or q                        # Quit htop
+Space                           # Tag/untag process
+U                               # Show only processes of selected user
+```
+
+**Note:** `htop` may not be installed by default. Install with `apt install htop` or `yum install htop`.
+
+---
+
+### `kill`
+
+**What it is:**
+- Sends signals to processes by PID
+- Controls process behavior from termination to configuration reload
+
+**What it does:**
+- Sends various signals including TERM (polite termination), KILL (immediate termination)
+- Defaults to SIGTERM which asks processes to shut down gracefully
+
+**When to use:**
+- Terminating hung or unresponsive applications
+- Sending SIGHUP to services to reload configuration
+
+**Popular flags with examples:**
+```bash
+kill 1234                       # Sends SIGTERM to PID 1234
+kill -9 1234                    # Sends SIGKILL (force kill immediately)
+kill -15 1234                   # Explicitly sends SIGTERM
+kill -HUP 1234                  # Sends SIGHUP (reload config)
+kill -STOP 1234                 # Sends SIGSTOP (pause process)
+kill -CONT 1234                 # Sends SIGCONT (resume paused process)
+kill -l                         # Lists all available signal names
+kill -USR1 1234                 # Sends SIGUSR1 (user-defined signal)
+killall firefox                 # Kills all processes named 'firefox'
+pkill -9 -u john                # Kills all processes owned by user 'john'
+```
+
+**Common signals:** 1=HUP (reload), 2=INT (interrupt), 9=KILL (force), 15=TERM (terminate), 18=CONT, 19=STOP
+
+---
+
+### `killall`
+
+**What it is:**
+- Sends signals to all processes matching a specified name
+- Convenient for terminating multiple instances without finding PIDs
+
+**What it does:**
+- Finds all processes with exact specified command name and sends signals
+- Eliminates need to find PIDs manually before sending signals
+
+**When to use:**
+- Closing all instances of an application at once
+- Terminating all instances of a problematic daemon
+
+**Popular flags with examples:**
+```bash
+killall firefox                 # Sends SIGTERM to all 'firefox' processes
+killall -9 chrome               # Sends SIGKILL to forcefully terminate chrome
+killall -u john                 # Kills all processes owned by user 'john'
+killall -i process_name         # Interactive: asks confirmation for each
+killall -v nginx                # Verbose: reports each killed process
+killall -w httpd                # Waits for processes to die before returning
+killall -HUP nginx              # Sends SIGHUP to all nginx processes
+killall -l                      # Lists all known signal names
+```
+
+---
+
+### `pkill`
+
+**What it is:**
+- Sends signals to processes based on pattern matching
+- Provides more flexible process selection than killall with regex
+
+**What it does:**
+- Matches processes using patterns against full command lines
+- Can filter by user, process group, terminal, and other attributes
+
+**When to use:**
+- Killing processes whose command lines contain specific arguments
+- Terminating all processes for a specific user or terminal session
+
+**Popular flags with examples:**
+```bash
+pkill firefox                   # Kills all processes with 'firefox' in name
+pkill -9 chrome                 # Sends SIGKILL to all matching chrome
+pkill -u john                   # Kills all processes owned by user 'john'
+pkill -f "python.*backup"       # Kills processes whose full command matches pattern
+pkill -t pts/1                  # Kills all processes on terminal pts/1
+pkill -P 1234                   # Kills all child processes of parent PID 1234
+pkill -n firefox                # Kills only newest 'firefox' process
+pkill -o apache                 # Kills only oldest 'apache' process
+pkill -HUP nginx                # Sends SIGHUP to all matching nginx
+pkill -x exact_name             # Exact match only
+```
+
+---
+
+### `nice`
+
+**What it is:**
+- Starts processes with specified priority (niceness level)
+- Controls CPU time allocation relative to other processes
+
+**What it does:**
+- Launches processes with adjusted scheduling priority (-20 to 19)
+- Regular users can only increase niceness (lower priority), root can decrease
+
+**When to use:**
+- Running intensive batch jobs without slowing down interactive applications
+- Starting background tasks with lower priority to keep system responsive
+
+**Usage examples:**
+```bash
+nice -n 10 command              # Runs command with niceness +10 (lower priority)
+nice -n 19 ./backup.sh          # Runs backup at lowest priority
+nice -n -10 important_task      # Runs at higher priority (requires root)
+nice --adjustment=15 tar czf archive.tar.gz /data  # Low priority archive
+nice command args               # Runs with default niceness +10
+```
+
+**Niceness scale:** -20 (highest priority) to +19 (lowest priority). Default is 0. Regular users can only set 0-19.
+
+---
+
+### `renice`
+
+**What it is:**
+- Changes the priority (niceness) of already-running processes
+- Adjusts resource allocation dynamically without restarting
+
+**What it does:**
+- Modifies niceness value of running processes by PID, user, or process group
+- Can adjust individual processes or all processes for a user
+
+**When to use:**
+- Reducing CPU impact of background tasks consuming too many resources
+- Temporarily boosting priority of critical services during issues
+
+**Popular flags with examples:**
+```bash
+renice 10 -p 1234               # Changes PID 1234 to niceness +10
+renice -5 -p 1234               # Changes PID 1234 to niceness -5 (requires root)
+renice 15 -u john               # Changes all john's processes to niceness +15
+renice 10 -g 500                # Changes all processes in process group 500
+renice -n 5 -p 1234 5678        # Changes multiple PIDs to niceness +5
+sudo renice -20 -p 1234         # Maximum priority for PID (root only)
+```
+
+---
+
+### `jobs`
+
+**What it is:**
+- Lists background and stopped jobs in current shell session
+- Shows job numbers, states, and associated commands
+
+**What it does:**
+- Displays list of jobs started from current shell with their job IDs and states
+- Shows which job is current (+) and which is previous (-)
+
+**When to use:**
+- Checking what background processes are running in your session
+- Reviewing stopped jobs to resume or manage them
+
+**Popular flags with examples:**
+```bash
+jobs                            # Lists all background and stopped jobs
+jobs -l                         # Lists jobs with process IDs
+jobs -r                         # Lists only running jobs
+jobs -s                         # Lists only stopped jobs
+jobs -p                         # Lists only PIDs of jobs
+jobs -n                         # Lists jobs that changed status
+```
+
+---
+
+### `fg`
+
+**What it is:**
+- Brings background or stopped jobs back to foreground
+- Makes them the active process in your terminal
+
+**What it does:**
+- Moves specified background job to foreground, resuming if stopped
+- Restores full terminal control to the process
+
+**When to use:**
+- Bringing background processes to foreground to check progress
+- Resuming accidentally suspended programs with Ctrl+Z
+
+**Usage examples:**
+```bash
+fg                              # Brings most recent background/stopped job forward
+fg %1                           # Brings job number 1 to foreground
+fg %job_name                    # Brings job matching 'job_name' to foreground
+fg %-                           # Brings previous job to foreground
+fg %+                           # Brings current job to foreground
+fg %?string                     # Brings job whose command contains 'string'
+```
+
+---
+
+### `bg`
+
+**What it is:**
+- Resumes stopped jobs in the background
+- Allows them to continue running while freeing your terminal
+
+**What it does:**
+- Resumes stopped job (suspended with Ctrl+Z) in background
+- Allows using shell for other commands while job continues
+
+**When to use:**
+- Resuming accidentally stopped compilations in background
+- Backgrounding jobs to let them complete while freeing terminal
+
+**Usage examples:**
+```bash
+bg                              # Resumes most recently stopped job in background
+bg %1                           # Resumes job number 1 in background
+bg %job_name                    # Resumes job matching 'job_name' in background
+bg %-                           # Resumes previous job in background
+bg %2 %3                        # Resumes multiple jobs in background
+```
+
+**Tip:** Start commands with & to run in background from start (e.g., `./long_process.sh &`).
+
+---
+
+### `nohup`
+
+**What it is:**
+- Runs programs immune to hangup signals (SIGHUP)
+- Allows processes to continue after you log out
+
+**What it does:**
+- Protects processes from termination when controlling terminal closes
+- Redirects output to nohup.out file by default
+
+**When to use:**
+- Starting long-running processes over SSH that must survive connection drops
+- Running batch jobs that take hours/days allowing you to log out
+
+**Usage examples:**
+```bash
+nohup command &                 # Runs in background, immune to hangups
+nohup ./long_script.sh &        # Runs script in background protected
+nohup python analysis.py > output.log 2>&1 &  # Redirects to custom log
+nohup command &                 # Output goes to nohup.out
+nohup make all &                # Runs compilation protected from hangups
+```
+
+**Note:** Combine with & for background. Without &, runs in foreground but still protected. Check progress with `tail -f nohup.out`.
+
+---
+
+## Package Management
+
+### `apt` (Debian/Ubuntu)
+
+**What it is:**
+- High-level package manager for Debian-based systems
+- Provides user-friendly commands to install, update, and manage software
+
+**What it does:**
+- Installs, upgrades, and removes packages while automatically managing dependencies
+- Updates package lists from repositories and upgrades installed packages
+
+**When to use:**
+- Installing new software instead of downloading files manually
+- Updating all packages to receive security patches and bug fixes
+
+**Popular flags with examples:**
+```bash
+sudo apt update                 # Updates package lists from repositories
+sudo apt upgrade                # Upgrades all installed packages
+sudo apt install nginx          # Installs nginx with dependencies
+sudo apt install package1 package2  # Installs multiple packages
+sudo apt remove nginx           # Removes package but keeps configs
+sudo apt purge nginx            # Completely removes package including configs
+sudo apt autoremove             # Removes unused dependencies
+sudo apt search python          # Searches for packages containing 'python'
+apt show nginx                  # Shows detailed package information
+apt list --installed            # Lists all installed packages
+apt list --upgradable           # Lists packages that can be upgraded
+sudo apt full-upgrade           # Upgrades packages, removing old if necessary
+sudo apt clean                  # Clears local cache of downloaded packages
+```
+
+---
+
+### `apt-get` (Debian/Ubuntu)
+
+**What it is:**
+- Traditional low-level package management tool for Debian-based systems
+- Provides script-friendly and stable command interface
+
+**What it does:**
+- Performs core package management functions with more options for scripting
+- Provides predictable output format that doesn't change between versions
+
+**When to use:**
+- Using in automation scripts requiring consistent behavior
+- Accessing advanced package operations not available in apt
+
+**Popular flags with examples:**
+```bash
+sudo apt-get update             # Updates package index
+sudo apt-get upgrade            # Upgrades installed packages
+sudo apt-get install nginx      # Installs nginx package
+sudo apt-get remove nginx       # Removes package keeping configs
+sudo apt-get purge nginx        # Removes package and configurations
+sudo apt-get autoremove         # Removes orphaned dependencies
+sudo apt-get dist-upgrade       # Upgrades with intelligent dependency handling
+sudo apt-get clean              # Clears downloaded package archives
+sudo apt-get autoclean          # Removes only obsolete package files
+sudo apt-get install --reinstall nginx  # Reinstalls package
+sudo apt-get install -y package # Non-interactive: assumes 'yes' (for scripts)
+sudo apt-get build-dep package  # Installs build dependencies
+```
+
+---
+
+### `dpkg` (Debian/Ubuntu)
+
+**What it is:**
+- Low-level package manager for Debian-based systems
+- Directly installs .deb files without automatic dependency resolution
+
+**What it does:**
+- Installs and removes individual .deb package files directly
+- Queries installed packages for information and verifies package integrity
+
+**When to use:**
+- Installing downloaded .deb files from vendor websites
+- Querying package information and listing installed packages
+
+**Popular flags with examples:**
+```bash
+sudo dpkg -i package.deb        # Installs .deb package file
+sudo dpkg -r package-name       # Removes installed package (keeps configs)
+sudo dpkg -P package-name       # Purges package completely
+dpkg -l                         # Lists all installed packages
+dpkg -l | grep nginx            # Searches installed packages
+dpkg -L package-name            # Lists all files installed by package
+dpkg -S /path/to/file           # Shows which package owns file
+dpkg -s package-name            # Shows detailed package status
+sudo dpkg --configure -a        # Configures all unpacked but unconfigured packages
+sudo dpkg --force-all -i pkg.deb  # Forces installation ignoring errors
+dpkg -c package.deb             # Lists contents of .deb without installing
+```
+
+---
+
+### `yum` (RHEL/CentOS 7 and earlier)
+
+**What it is:**
+- Package manager for Red Hat-based systems like RHEL and CentOS
+- Manages RPM packages with automatic dependency resolution
+
+**What it does:**
+- Installs, updates, and removes RPM packages with automatic dependencies
+- Searches repositories, shows package info, and manages package groups
+
+**When to use:**
+- Installing web servers, databases, and tools with automatic dependencies
+- Patching systems with latest security fixes from vendor repositories
+
+**Popular flags with examples:**
+```bash
+sudo yum update                 # Updates all installed packages
+sudo yum install httpd          # Installs Apache web server
+sudo yum remove httpd           # Removes package
+sudo yum search python          # Searches repositories for packages
+yum info nginx                  # Shows detailed package information
+yum list installed              # Lists all installed packages
+yum list available              # Lists all available packages
+sudo yum groupinstall "Development Tools"  # Installs package group
+yum provides */bin/wget         # Finds which package provides file
+sudo yum clean all              # Cleans all cached package data
+sudo yum history                # Shows transaction history
+sudo yum history undo 5         # Undoes transaction number 5
+yum repolist                    # Lists enabled repositories
+sudo yum install -y package     # Non-interactive installation
+```
+
+---
+
+### `dnf` (RHEL 8+/CentOS 8+/Fedora)
+
+**What it is:**
+- Modern package manager for Red Hat-based systems replacing yum
+- Improved performance, better dependency resolution, and robust architecture
+
+**What it does:**
+- Provides all yum functionality with faster performance and lower memory usage
+- Offers enhanced features like module streams for managing multiple software versions
+
+**When to use:**
+- Using as standard package manager on modern RHEL, CentOS Stream, or Fedora
+- Managing application versions using dnf module commands
+
+**Popular flags with examples:**
+```bash
+sudo dnf update                 # Updates all installed packages
+sudo dnf install nginx          # Installs nginx package
+sudo dnf remove nginx           # Removes package
+sudo dnf search database        # Searches for packages related to 'database'
+dnf info mariadb                # Shows package information
+dnf list installed              # Lists all installed packages
+dnf list available              # Lists packages available for installation
+sudo dnf groupinstall "Development Tools"  # Installs package group
+dnf provides */bin/git          # Finds which package provides file
+sudo dnf clean all              # Cleans cached metadata and packages
+sudo dnf history                # Shows transaction history
+sudo dnf history undo last      # Undoes last transaction
+dnf module list                 # Lists available module streams
+sudo dnf module install postgresql:13  # Installs specific module stream
+dnf repolist                    # Lists enabled repositories
+sudo dnf autoremove             # Removes unneeded dependencies
+```
+
+---
+
+### `rpm` (Red Hat-based)
+
+**What it is:**
+- Low-level package manager for Red Hat-based systems
+- Directly manages .rpm package files without automatic dependency resolution
+
+**What it does:**
+- Installs and removes individual .rpm package files directly
+- Queries RPM database for installed packages, contents, and file ownership
+
+**When to use:**
+- Installing RPM packages downloaded directly from vendors
+- Querying which package owns specific files or verifying package integrity
+
+**Popular flags with examples:**
+```bash
+sudo rpm -ivh package.rpm       # Installs package with verbose output and progress
+sudo rpm -Uvh package.rpm       # Upgrades package (or installs if not present)
+sudo rpm -e package-name        # Removes/erases package
+rpm -qa                         # Queries all installed packages
+rpm -qa | grep nginx            # Searches installed packages
+rpm -qi package-name            # Shows detailed package information
+rpm -ql package-name            # Lists files installed by package
+rpm -qf /path/to/file           # Shows which package owns file
+rpm -qd package-name            # Lists documentation files from package
+rpm -qc package-name            # Lists configuration files from package
+rpm -qp package.rpm             # Queries uninstalled RPM file
+rpm -V package-name             # Verifies installed files against package database
+rpm -K package.rpm              # Checks package signature and integrity
+rpm -qR package-name            # Lists package dependencies (requires)
+rpm -q --changelog package      # Shows package changelog
+```
+
+---
+
+## 🎯 Contributing
+
+Contributions are welcome! If you'd like to add more commands or improve existing descriptions, please feel free to submit a pull request.
+
+## 📄 License
+
+This reference guide is provided as-is for educational purposes.
+
+## 🙏 Acknowledgments
+
+This comprehensive guide is designed to help both beginners and experienced Linux users quickly find and understand the commands they need.
+
+---
+
+**Made with ❤️ for the Linux community**Claude is AI and can make mistakes. Please double-check responses.
