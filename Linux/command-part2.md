@@ -1,4 +1,5 @@
-```markdown
+
+
 # 🐧 Complete Linux Commands Reference Guide (Part 2)
 
 ## 📚 Table of Contents
@@ -30,6 +31,7 @@
 - Identifying which filesystems are running out of space during troubleshooting
 
 **Popular flags with examples:**
+
 ```bash
 df                              # Shows disk space for all mounted filesystems
 df -h                           # Human-readable format (GB, MB instead of bytes)
@@ -41,9 +43,7 @@ df -h -t ext4                   # Shows only ext4 filesystems
 df -h --exclude-type=tmpfs      # Excludes tmpfs filesystems from output
 df -a                           # Shows all filesystems including pseudo filesystems
 df -h .                         # Shows disk space for filesystem containing current directory
-```
 
----
 
 ### `du`
 
