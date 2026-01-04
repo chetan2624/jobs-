@@ -865,3 +865,924 @@ ip route                        # Shows routing table
 ip route show                   # Same as above
 sudo ip route add default via 192.168.1.1  # Sets default gateway
 sudo ip route add
+
+10.0.0.0/8 via 192.168.1.254  # Adds static route
+sudo ip route del 10.0.0.0/8    # Deletes route
+ip neigh                        # Shows ARP table (neighbor cache)
+ip -s link                      # Shows interface statistics
+ip -4 addr                      # Shows only IPv4 addresses
+ip -6 addr                      # Shows only IPv6 addresses
+```
+
+---
+
+### `ifconfig`
+
+**What it is:**
+- Legacy network interface configuration tool
+- Displays and configures network interface parameters
+
+**What it does:**
+- Shows network interface information including IP addresses and statistics
+- Configures interface addresses and parameters (deprecated, use ip instead)
+
+**When to use:**
+- Quick viewing of network interface information on older systems
+- Legacy scripts requiring ifconfig compatibility
+
+**Popular flags with examples:**
+```bash
+ifconfig                        # Shows all active network interfaces
+ifconfig -a                     # Shows all interfaces including inactive
+ifconfig eth0                   # Shows specific interface information
+sudo ifconfig eth0 192.168.1.100 netmask 255.255.255.0  # Sets IP address
+sudo ifconfig eth0 up           # Brings interface up
+sudo ifconfig eth0 down         # Brings interface down
+ifconfig eth0 | grep inet       # Extracts IP address information
+```
+
+**Note:** `ifconfig` is deprecated. Use `ip` command instead for modern systems.
+
+---
+
+### `ping`
+
+**What it is:**
+- Tests network connectivity to hosts using ICMP echo requests
+- Verifies if remote hosts are reachable and measures round-trip time
+
+**What it does:**
+- Sends ICMP packets to target host and reports responses and timing
+- Helps diagnose network connectivity and latency issues
+
+**When to use:**
+- Testing if a host or website is reachable
+- Measuring network latency and packet loss
+
+**Popular flags with examples:**
+```bash
+ping google.com                 # Pings google.com continuously
+ping -c 4 google.com            # Sends only 4 ping requests
+ping -i 2 google.com            # Sets 2 second interval between pings
+ping -s 1000 google.com         # Sends packets of 1000 bytes
+ping -w 10 google.com           # Stops after 10 seconds
+ping -q -c 10 google.com        # Quiet mode: shows only summary
+ping -f google.com              # Flood ping (requires root, for testing)
+ping 192.168.1.1                # Pings local gateway
+ping -4 google.com              # Forces IPv4
+ping -6 google.com              # Forces IPv6
+```
+
+---
+
+### `traceroute`
+
+**What it is:**
+- Traces the route packets take to reach a destination host
+- Shows all intermediate hops between your computer and target
+
+**What it does:**
+- Displays each router/hop along the path to destination with timing information
+- Helps identify where network delays or failures occur
+
+**When to use:**
+- Diagnosing slow network connections to identify bottlenecks
+- Troubleshooting network routing issues and unreachable hosts
+
+**Popular flags with examples:**
+```bash
+traceroute google.com           # Traces route to google.com
+traceroute -n google.com        # Shows IP addresses instead of hostnames
+traceroute -m 15 google.com     # Sets maximum hops to 15
+traceroute -q 2 google.com      # Sends 2 queries per hop (default 3)
+traceroute -w 2 google.com      # Sets 2 second timeout per probe
+traceroute -I google.com        # Uses ICMP instead of UDP
+```
+
+**Note:** Install with `apt install traceroute` or `yum install traceroute` if not available.
+
+---
+
+### `netstat`
+
+**What it is:**
+- Displays network connections, routing tables, interface statistics
+- Shows active network connections and listening ports
+
+**What it does:**
+- Lists all TCP/UDP connections, listening ports, routing tables, and network statistics
+- Helps identify what services are listening and what connections exist
+
+**When to use:**
+- Finding which ports are open and listening for connections
+- Identifying active network connections and their states
+
+**Popular flags with examples:**
+```bash
+netstat -tuln                   # Shows listening TCP/UDP ports with numbers
+netstat -tun                    # Shows all TCP/UDP connections
+netstat -a                      # Shows all connections and listening ports
+netstat -r                      # Shows routing table
+netstat -i                      # Shows network interface statistics
+netstat -s                      # Shows protocol statistics
+netstat -p                      # Shows process ID/name for connections (requires root)
+netstat -c                      # Continuously displays connections
+netstat -tulnp                  # Common combination: listening ports with processes
+netstat -an | grep :80          # Shows connections on port 80
+netstat -an | grep ESTABLISHED  # Shows established connections
+```
+
+**Note:** `netstat` is deprecated. Use `ss` command for modern systems.
+
+---
+
+### `ss`
+
+**What it is:**
+- Modern replacement for netstat showing socket statistics
+- Faster and more detailed than netstat for socket information
+
+**What it does:**
+- Displays detailed information about network sockets and connections
+- Shows TCP, UDP, Unix sockets with filtering capabilities
+
+**When to use:**
+- Viewing active network connections and listening ports
+- Diagnosing network issues with detailed socket information
+
+**Popular flags with examples:**
+```bash
+ss                              # Shows all established connections
+ss -tuln                        # Shows listening TCP/UDP ports
+ss -tun                         # Shows all TCP/UDP connections
+ss -a                           # Shows all sockets (listening and established)
+ss -l                           # Shows only listening sockets
+ss -p                           # Shows process using socket
+ss -s                           # Shows socket statistics summary
+ss -4                           # Shows only IPv4 sockets
+ss -6                           # Shows only IPv6 sockets
+ss -t state established         # Shows only established TCP connections
+ss dst 192.168.1.100            # Shows connections to specific IP
+ss sport = :22                  # Shows sockets on source port 22
+ss -tunlp | grep :80            # Shows what's listening on port 80
+```
+
+---
+
+### `curl`
+
+**What it is:**
+- Command-line tool for transferring data with URLs
+- Supports HTTP, HTTPS, FTP, and many other protocols
+
+**What it does:**
+- Downloads files, tests APIs, sends HTTP requests with various methods
+- Supports authentication, headers, cookies, and complex requests
+
+**When to use:**
+- Testing RESTful APIs and web services
+- Downloading files from the internet or making HTTP requests
+
+**Popular flags with examples:**
+```bash
+curl https://example.com        # Fetches webpage content
+curl -O https://example.com/file.zip  # Downloads file with original name
+curl -o myfile.zip https://example.com/file.zip  # Downloads with custom name
+curl -I https://example.com     # Fetches headers only
+curl -L https://example.com     # Follows redirects
+curl -X POST https://api.example.com/data  # Sends POST request
+curl -d "param1=value1&param2=value2" https://api.example.com  # POST with data
+curl -H "Content-Type: application/json" https://api.example.com  # Custom header
+curl -u username:password https://example.com  # Basic authentication
+curl -v https://example.com     # Verbose output showing request/response details
+curl -s https://example.com     # Silent mode (no progress bar)
+curl --limit-rate 100K https://example.com/large-file  # Limits download speed
+curl -C - -O https://example.com/file.zip  # Resumes interrupted download
+```
+
+---
+
+### `wget`
+
+**What it is:**
+- Non-interactive network downloader for retrieving files from web
+- Downloads files via HTTP, HTTPS, and FTP protocols
+
+**What it does:**
+- Downloads files from URLs with support for resuming interrupted downloads
+- Can download recursively, mirror websites, and handle authentication
+
+**When to use:**
+- Downloading files from the internet in scripts or automated tasks
+- Mirroring websites or downloading entire directories
+
+**Popular flags with examples:**
+```bash
+wget https://example.com/file.zip  # Downloads file
+wget -O custom-name.zip https://example.com/file.zip  # Saves with custom name
+wget -c https://example.com/file.zip  # Continues/resumes interrupted download
+wget -b https://example.com/large-file  # Downloads in background
+wget -i urls.txt                # Downloads all URLs from file
+wget -r https://example.com     # Recursively downloads website
+wget --limit-rate=200k https://example.com/file  # Limits download speed
+wget -q https://example.com/file  # Quiet mode (no output)
+wget --user=username --password=pass https://example.com/file  # Authentication
+wget --tries=10 https://example.com/file  # Retries download 10 times
+wget -m https://example.com     # Mirrors website
+wget --no-check-certificate https://example.com  # Ignores SSL certificate errors
+```
+
+---
+
+### `nslookup`
+
+**What it is:**
+- Queries DNS servers to find IP addresses and DNS records
+- Interactive and non-interactive DNS lookup tool
+
+**What it does:**
+- Resolves domain names to IP addresses and vice versa
+- Queries specific DNS record types (A, MX, NS, etc.)
+
+**When to use:**
+- Finding IP address of a domain name
+- Troubleshooting DNS resolution issues
+
+**Popular usage examples:**
+```bash
+nslookup google.com             # Looks up IP address for google.com
+nslookup 8.8.8.8                # Reverse lookup (IP to hostname)
+nslookup -type=mx google.com    # Queries mail server records
+nslookup -type=ns google.com    # Queries nameserver records
+nslookup -type=any google.com   # Queries all available records
+nslookup google.com 8.8.8.8     # Uses specific DNS server (8.8.8.8)
+```
+
+---
+
+### `dig`
+
+**What it is:**
+- DNS lookup utility providing detailed query information
+- More powerful and flexible than nslookup for DNS troubleshooting
+
+**What it does:**
+- Performs DNS queries showing detailed response information
+- Supports various query types and DNS server specification
+
+**When to use:**
+- Detailed DNS troubleshooting and verification
+- Testing DNS server responses and record propagation
+
+**Popular flags with examples:**
+```bash
+dig google.com                  # Performs DNS lookup for google.com
+dig google.com +short           # Shows only IP address (brief output)
+dig @8.8.8.8 google.com         # Uses specific DNS server
+dig google.com MX               # Queries mail server records
+dig google.com NS               # Queries nameserver records
+dig google.com ANY              # Queries all record types
+dig -x 8.8.8.8                  # Reverse DNS lookup
+dig google.com +trace           # Traces DNS delegation path
+dig google.com +noall +answer   # Shows only answer section
+dig google.com AAAA             # Queries IPv6 address
+```
+
+---
+
+### `host`
+
+**What it is:**
+- Simple DNS lookup utility for resolving hostnames
+- Lightweight alternative to dig and nslookup
+
+**What it does:**
+- Performs straightforward DNS lookups showing IP addresses
+- Can query specific record types with minimal output
+
+**When to use:**
+- Quick DNS lookups without detailed information
+- Simple hostname to IP resolution in scripts
+
+**Popular flags with examples:**
+```bash
+host google.com                 # Looks up IP address for google.com
+host 8.8.8.8                    # Reverse DNS lookup
+host -t MX google.com           # Queries mail server records
+host -t NS google.com           # Queries nameserver records
+host -a google.com              # Shows all DNS records
+host google.com 8.8.8.8         # Uses specific DNS server
+```
+
+---
+
+### `nc` (netcat)
+
+**What it is:**
+- Versatile networking utility for reading/writing data across network connections
+- Often called the "Swiss Army knife" of networking tools
+
+**What it does:**
+- Creates TCP/UDP connections, listens on ports, transfers files, and port scanning
+- Can act as simple TCP server or client for testing
+
+**When to use:**
+- Testing if specific ports are open and accepting connections
+- Transferring files between machines or debugging network applications
+
+**Popular flags with examples:**
+```bash
+nc -l 8080                      # Listens on port 8080
+nc example.com 80               # Connects to example.com on port 80
+nc -v example.com 22            # Verbose connection test to port 22
+nc -z example.com 20-100        # Scans ports 20-100
+nc -u example.com 53            # Connects using UDP
+echo "Test" | nc example.com 80 # Sends data to server
+nc -l 8080 > received_file      # Receives file on port 8080
+nc example.com 8080 < file.txt  # Sends file to remote host
+nc -w 3 example.com 80          # Sets 3 second timeout
+```
+
+---
+
+### `telnet`
+
+**What it is:**
+- Network protocol and client for connecting to remote systems
+- Simple tool for testing TCP connections and ports
+
+**What it does:**
+- Creates TCP connections to remote hosts on specified ports
+- Allows interactive communication with network services
+
+**When to use:**
+- Testing if specific ports are open and accepting connections
+- Manually testing protocols like HTTP, SMTP, or POP3
+
+**Usage examples:**
+```bash
+telnet example.com 80           # Connects to example.com on port 80
+telnet 192.168.1.1 23           # Connects to IP on telnet port
+telnet example.com 25           # Tests SMTP server connection
+# After connecting, type commands manually
+# Press Ctrl+] then type 'quit' to exit
+```
+
+**Note:** Telnet is insecure (unencrypted). Use SSH for actual remote access.
+
+---
+
+### `ssh`
+
+**What it is:**
+- Secure Shell protocol client for encrypted remote login and command execution
+- Securely connects to remote systems over networks
+
+**What it does:**
+- Provides encrypted remote terminal access and file transfer
+- Supports authentication via passwords or SSH keys
+
+**When to use:**
+- Securely logging into remote servers for administration
+- Executing commands on remote systems securely
+
+**Popular flags with examples:**
+```bash
+ssh user@example.com            # Connects to remote server as user
+ssh -p 2222 user@example.com    # Connects to custom port 2222
+ssh -i ~/.ssh/id_rsa user@example.com  # Uses specific private key
+ssh user@example.com "ls -la"   # Executes command on remote server
+ssh -L 8080:localhost:80 user@example.com  # Local port forwarding
+ssh -R 8080:localhost:80 user@example.com  # Remote port forwarding
+ssh -D 1080 user@example.com    # Creates SOCKS proxy
+ssh -X user@example.com         # Enables X11 forwarding for GUI apps
+ssh -v user@example.com         # Verbose mode for debugging
+ssh -o StrictHostKeyChecking=no user@example.com  # Disables host key checking
+```
+
+---
+
+### `scp`
+
+**What it is:**
+- Secure copy protocol for transferring files between hosts over SSH
+- Encrypted file transfer using SSH protocol
+
+**What it does:**
+- Copies files securely between local and remote systems
+- Preserves file permissions and timestamps
+
+**When to use:**
+- Securely transferring files to or from remote servers
+- Copying files between remote systems
+
+**Popular flags with examples:**
+```bash
+scp file.txt user@example.com:/path/  # Copies file to remote server
+scp user@example.com:/path/file.txt . # Copies file from remote server
+scp -r directory/ user@example.com:/path/  # Recursively copies directory
+scp -P 2222 file.txt user@example.com:/path/  # Uses custom port
+scp -i ~/.ssh/id_rsa file.txt user@example.com:/path/  # Uses specific key
+scp file1.txt file2.txt user@example.com:/path/  # Copies multiple files
+scp -p file.txt user@example.com:/path/  # Preserves modification times
+scp -C file.txt user@example.com:/path/  # Enables compression
+scp user1@host1:/path/file user2@host2:/path/  # Copies between remote hosts
+```
+
+---
+
+### `rsync`
+
+**What it is:**
+- Fast and versatile file copying and synchronization tool
+- Efficiently transfers and synchronizes files locally or over network
+
+**What it does:**
+- Copies files while transferring only differences (delta-transfer algorithm)
+- Supports compression, preservation of permissions, and partial transfers
+
+**When to use:**
+- Synchronizing files and directories between systems
+- Creating backups with incremental updates
+
+**Popular flags with examples:**
+```bash
+rsync -av source/ destination/  # Archives with verbose output
+rsync -avz source/ user@example.com:/destination/  # Syncs to remote with compression
+rsync -avz --delete source/ destination/  # Deletes files in destination not in source
+rsync -avz --exclude='*.log' source/ destination/  # Excludes .log files
+rsync -avzP source/ destination/  # Shows progress during transfer
+rsync -avz --dry-run source/ destination/  # Shows what would be transferred (test mode)
+rsync -avz -e "ssh -p 2222" source/ user@example.com:/dest/  # Uses custom SSH port
+rsync -avz --include='*.txt' --exclude='*' source/ dest/  # Includes only .txt files
+rsync -avz --bwlimit=1000 source/ destination/  # Limits bandwidth to 1000 KB/s
+rsync -avz --backup --backup-dir=/backups source/ dest/  # Creates backups
+```
+
+---
+
+## Hardware & System Information
+
+### `lscpu`
+
+**What it is:**
+- Displays detailed CPU architecture information
+- Shows processor characteristics and configuration
+
+**What it does:**
+- Presents CPU information including cores, threads, architecture, and cache sizes
+- Shows CPU frequency, virtualization support, and capabilities
+
+**When to use:**
+- Checking CPU specifications and capabilities
+- Verifying processor configuration for software requirements
+
+**Usage examples:**
+```bash
+lscpu                           # Shows detailed CPU information
+lscpu | grep "Model name"       # Extracts CPU model
+lscpu -e                        # Shows extended CPU information
+lscpu -p                        # Shows parseable output
+```
+
+---
+
+### `lspci`
+
+**What it is:**
+- Lists all PCI devices connected to the system
+- Shows graphics cards, network adapters, and other PCI hardware
+
+**What it does:**
+- Displays PCI bus information including device IDs, vendors, and drivers
+- Shows detailed information about PCI hardware components
+
+**When to use:**
+- Identifying installed hardware components and their specifications
+- Finding device IDs for driver installation
+
+**Popular flags with examples:**
+```bash
+lspci                           # Lists all PCI devices
+lspci -v                        # Verbose output with detailed information
+lspci -vv                       # Even more verbose output
+lspci -k                        # Shows kernel drivers handling each device
+lspci | grep -i vga             # Shows graphics card information
+lspci | grep -i ethernet        # Shows network adapters
+lspci -nn                       # Shows device IDs alongside names
+lspci -t                        # Shows device tree
+lspci -s 00:02.0                # Shows specific device by ID
+```
+
+---
+
+### `lsusb`
+
+**What it is:**
+- Lists USB devices connected to the system
+- Shows USB controllers, hubs, and connected peripherals
+
+**What it does:**
+- Displays USB device information including vendor IDs, product IDs, and descriptions
+- Shows USB bus topology and device hierarchy
+
+**When to use:**
+- Identifying connected USB devices and their specifications
+- Troubleshooting USB device recognition issues
+
+**Popular flags with examples:**
+```bash
+lsusb                           # Lists all USB devices
+lsusb -v                        # Verbose output with detailed information
+lsusb -t                        # Shows USB device tree
+lsusb -d vendor:product         # Shows specific device
+lsusb | grep -i mouse           # Finds mouse devices
+```
+
+---
+
+### `lsblk`
+
+**What it is:**
+- Lists information about block devices (covered in Disk Management section)
+- Displays storage devices and their partitions
+
+**What it does:**
+- Shows all disk drives, partitions, mount points, and sizes
+- Displays device hierarchy in tree format
+
+**When to use:**
+- Viewing available storage devices and their configuration
+- Checking mount points and filesystem information
+
+**Popular flags with examples:**
+```bash
+lsblk                           # Shows all block devices
+lsblk -f                        # Shows filesystem information
+lsblk -a                        # Shows all devices including empty ones
+```
+
+---
+
+### `dmidecode`
+
+**What it is:**
+- Displays DMI/SMBIOS hardware information from system firmware
+- Shows detailed information about computer hardware components
+
+**What it does:**
+- Retrieves hardware information from BIOS including manufacturer, model, serial numbers
+- Shows memory, processor, baseboard, and BIOS details
+
+**When to use:**
+- Getting detailed hardware specifications without opening the computer
+- Finding serial numbers, model information for warranty or inventory
+
+**Popular flags with examples:**
+```bash
+sudo dmidecode                  # Shows all hardware information
+sudo dmidecode -t system        # Shows system information
+sudo dmidecode -t processor     # Shows CPU information
+sudo dmidecode -t memory        # Shows RAM information
+sudo dmidecode -t bios          # Shows BIOS information
+sudo dmidecode -t baseboard     # Shows motherboard information
+sudo dmidecode -s system-serial-number  # Shows system serial number
+sudo dmidecode -s system-manufacturer  # Shows manufacturer name
+```
+
+---
+
+### `hwinfo`
+
+**What it is:**
+- Comprehensive hardware information tool
+- Probes and displays detailed hardware configuration
+
+**What it does:**
+- Shows extensive information about all detected hardware
+- Provides more detailed output than lspci or lsusb
+
+**When to use:**
+- Getting comprehensive hardware inventory and specifications
+- Troubleshooting hardware detection issues
+
+**Popular flags with examples:**
+```bash
+sudo hwinfo                     # Shows all hardware information
+sudo hwinfo --short             # Shows brief summary
+sudo hwinfo --cpu               # Shows CPU information
+sudo hwinfo --disk              # Shows disk information
+sudo hwinfo --network           # Shows network hardware
+sudo hwinfo --usb               # Shows USB devices
+sudo hwinfo --gfxcard           # Shows graphics card information
+```
+
+**Note:** Install with `apt install hwinfo` or `yum install hwinfo`
+
+---
+
+### `uname`
+
+**What it is:**
+- Prints system information including kernel version and architecture
+- Shows basic operating system identification
+
+**What it does:**
+- Displays kernel name, version, machine hardware, and operating system
+- Provides quick system identification information
+
+**When to use:**
+- Checking kernel version and system architecture
+- Verifying operating system information for compatibility
+
+**Popular flags with examples:**
+```bash
+uname                           # Shows kernel name (Linux)
+uname -a                        # Shows all system information
+uname -r                        # Shows kernel release version
+uname -m                        # Shows machine hardware architecture (x86_64, etc.)
+uname -n                        # Shows network hostname
+uname -s                        # Shows kernel name
+uname -v                        # Shows kernel version with build date
+uname -o                        # Shows operating system name
+```
+
+---
+
+### `hostname`
+
+**What it is:**
+- Displays or sets the system's hostname
+- Shows or modifies the computer's name on the network
+
+**What it does:**
+- Displays current hostname or sets new hostname temporarily
+- Shows FQDN (Fully Qualified Domain Name) and IP address
+
+**When to use:**
+- Checking current system hostname
+- Temporarily changing hostname for testing
+
+**Popular flags with examples:**
+```bash
+hostname                        # Shows current hostname
+hostname -f                     # Shows FQDN (fully qualified domain name)
+hostname -i                     # Shows IP address
+hostname -I                     # Shows all IP addresses
+hostname -d                     # Shows DNS domain name
+sudo hostname newhostname       # Sets hostname temporarily (until reboot)
+hostnamectl                     # Shows detailed hostname information (systemd)
+sudo hostnamectl set-hostname newhostname  # Sets hostname permanently (systemd)
+```
+
+---
+
+### `uptime`
+
+**What it is:**
+- Shows how long the system has been running
+- Displays system uptime, logged-in users, and load averages
+
+**What it does:**
+- Shows current time, how long system has been up, number of users, and load averages
+- Provides quick system status snapshot
+
+**When to use:**
+- Checking system uptime and overall load
+- Monitoring system stability and performance at a glance
+
+**Usage examples:**
+```bash
+uptime                          # Shows uptime and load averages
+uptime -p                       # Shows uptime in pretty format
+uptime -s                       # Shows time when system started
+```
+
+---
+
+### `free`
+
+**What it is:**
+- Displays memory usage information (RAM and swap)
+- Shows available and used memory
+
+**What it does:**
+- Reports total, used, free, shared, and available memory
+- Shows swap space usage
+
+**When to use:**
+- Checking available memory before running memory-intensive tasks
+- Monitoring memory usage during troubleshooting
+
+**Popular flags with examples:**
+```bash
+free                            # Shows memory in kilobytes
+free -h                         # Shows memory in human-readable format (GB/MB)
+free -m                         # Shows memory in megabytes
+free -g                         # Shows memory in gigabytes
+free -s 5                       # Updates display every 5 seconds
+free -t                         # Shows totals line
+free -w                         # Shows wide output with separate cache column
+```
+
+---
+
+### `lshw`
+
+**What it is:**
+- Lists detailed hardware configuration information
+- Comprehensive hardware information extraction tool
+
+**What it does:**
+- Extracts detailed information about hardware configuration
+- Shows hardware capabilities, configuration, and driver information
+
+**When to use:**
+- Getting complete hardware inventory with detailed specifications
+- Generating hardware reports for documentation
+
+**Popular flags with examples:**
+```bash
+sudo lshw                       # Shows all hardware information
+sudo lshw -short                # Shows brief summary
+sudo lshw -html > hardware.html # Outputs in HTML format
+sudo lshw -xml                  # Outputs in XML format
+sudo lshw -class disk           # Shows only disk information
+sudo lshw -class network        # Shows only network hardware
+sudo lshw -class processor      # Shows only CPU information
+sudo lshw -sanitize             # Removes sensitive information (serial numbers)
+```
+
+**Note:** Install with `apt install lshw` or `yum install lshw`
+
+---
+
+## Archive & Compression
+
+### `tar`
+
+**What it is:**
+- Archive utility for creating and extracting tape archives
+- Combines multiple files into single archive file, optionally compressed
+
+**What it does:**
+- Creates, extracts, and lists contents of tar archives
+- Supports various compression methods (gzip, bzip2, xz)
+
+**When to use:**
+- Creating backups of directories and files
+- Distributing multiple files as single package
+
+**Popular flags with examples:**
+```bash
+tar -cvf archive.tar files/     # Creates tar archive from directory
+tar -czvf archive.tar.gz files/ # Creates gzip compressed archive
+tar -cjvf archive.tar.bz2 files/  # Creates bzip2 compressed archive
+tar -cJvf archive.tar.xz files/   # Creates xz compressed archive
+tar -xvf archive.tar            # Extracts tar archive
+tar -xzvf archive.tar.gz        # Extracts gzip archive
+tar -xjvf archive.tar.bz2       # Extracts bzip2 archive
+tar -xJvf archive.tar.xz        # Extracts xz archive
+tar -tvf archive.tar            # Lists contents of archive
+tar -xvf archive.tar -C /destination/  # Extracts to specific directory
+tar -xzvf archive.tar.gz file.txt  # Extracts specific file
+tar -czvf archive.tar.gz --exclude='*.log' files/  # Excludes .log files
+tar -czf - files/ | ssh user@example.com "cat > /path/archive.tar.gz"  # Creates and transfers
+```
+
+**Common flags:**
+- `c` = create, `x` = extract, `t` = list
+- `v` = verbose, `f` = file
+- `z` = gzip, `j` = bzip2, `J` = xz
+
+---
+
+### `gzip`
+
+**What it is:**
+- Compresses files using gzip compression algorithm
+- Reduces file size while maintaining file integrity
+
+**What it does:**
+- Compresses files creating .gz compressed versions
+- Decompresses .gz files back to original format
+
+**When to use:**
+- Compressing individual files to save disk space
+- Preparing files for transfer over network
+
+**Popular flags with examples:**
+```bash
+gzip file.txt                   # Compresses file to file.txt.gz (deletes original)
+gzip -k file.txt                # Compresses keeping original file
+gzip -d file.txt.gz             # Decompresses file
+gunzip file.txt.gz              # Decompresses file (same as gzip -d)
+gzip -9 file.txt                # Maximum compression (level 9)
+gzip -1 file.txt                # Fastest compression (level 1)
+gzip -c file.txt > file.txt.gz  # Compresses to stdout, keeps original
+gzip -r directory/              # Recursively compresses files in directory
+gzip -l file.txt.gz             # Lists compression information
+gzip -t file.txt.gz             # Tests integrity of compressed file
+```
+
+---
+
+### `gunzip`
+
+**What it is:**
+- Decompresses gzip compressed files
+- Equivalent to `gzip -d`
+
+**What it does:**
+- Extracts original files from .gz compressed archives
+- Removes .gz extension after decompression
+
+**When to use:**
+- Extracting compressed files received or downloaded
+- Restoring compressed backup files
+
+**Usage examples:**
+```bash
+gunzip file.txt.gz              # Decompresses file
+gunzip -k file.txt.gz           # Decompresses keeping .gz file
+gunzip -c file.txt.gz > file.txt  # Decompresses to stdout
+gunzip -t file.txt.gz           # Tests compressed file integrity
+```
+
+---
+
+### `bzip2`
+
+**What it is:**
+- Compresses files using bzip2 algorithm (better compression than gzip)
+- Creates .bz2 compressed files
+
+**What it does:**
+- Compresses files with higher compression ratio than gzip
+- Decompresses .bz2 files back to original format
+
+**When to use:**
+- When maximum compression is more important than speed
+- Compressing large files where space savings matter
+
+**Popular flags with examples:**
+```bash
+bzip2 file.txt                  # Compresses file to file.txt.bz2
+bzip2 -k file.txt               # Compresses keeping original
+bzip2 -d file.txt.bz2           # Decompresses file
+bunzip2 file.txt.bz2            # Decompresses file (same as bzip2 -d)
+bzip2 -9 file.txt               # Maximum compression
+bzip2 -1 file.txt               # Fastest compression
+bzip2 -c file.txt > file.txt.bz2  # Compresses to stdout
+bzip2 -t file.txt.bz2           # Tests file integrity
+```
+
+---
+
+### `xz`
+
+**What it is:**
+- Compresses files using LZMA/LZMA2 algorithm (highest compression)
+- Creates .xz compressed files with excellent compression ratios
+
+**What it does:**
+- Provides very high compression ratios, better than gzip or bzip2
+- Decompresses .xz files back to original format
+
+**When to use:**
+- When maximum compression is critical (distributions, archives)
+- Compressing large data sets where size reduction is paramount
+
+**Popular flags with examples:**
+```bash
+xz file.txt                     # Compresses file to file.txt.xz
+xz -k file.txt                  # Compresses keeping original
+xz -d file.txt.xz               # Decompresses file
+unxz file.txt.xz                # Decompresses file (same as xz -d)
+xz -9 file.txt                  # Maximum compression (very slow)
+xz -0 file.txt                  # Fastest compression
+xz -c file.txt > file.txt.xz    # Compresses to stdout
+xz -t file.txt.xz               # Tests file integrity
+xz -l file.txt.xz               # Lists compression information
+```
+
+---
+
+### `zip`
+
+**What it is:**
+- Creates compressed ZIP archives compatible with Windows
+- Packages and compresses multiple files into .zip format
+
+**What it does:**
+- Creates ZIP archives containing multiple files and directories
+- Compresses files while maintaining directory structure
+
+**When to use:**
+- Creating archives for sharing with Windows users
+- Packaging files for email or web download
+
+**Popular flags with examples:**
+```bash
+zip archive.zip file1.txt file2.txt  # Creates zip archive
+zip -r archive.
